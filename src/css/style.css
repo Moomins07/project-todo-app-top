@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .project-card {
+    @apply bg-darkBlue1 p-4 rounded-lg flex flex-col justify-around gap-3 hover:-translate-y-1.5 border-l-8 border-lightRed transition ease-in-out relative;
+  }
+}
+
+.card i {
+  position: absolute;
+  top: 20px;
+  right: 10px;
+}
+
 #project-cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -10,6 +22,7 @@
 .card {
   min-height: 200px;
   cursor: pointer;
+  position: relative;
 }
 
 .truncate-words {
@@ -19,4 +32,8 @@
   -webkit-line-clamp: 3; /* Number of lines to show, approximate based on average word length */
   -webkit-box-orient: vertical;
   white-space: normal;
+}
+
+.project-card:hover .todo-list {
+  max-height: 500px; /* Example, adjust based on your needs */
 }

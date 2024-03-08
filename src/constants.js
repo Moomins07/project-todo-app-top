@@ -1,3 +1,5 @@
 const TODO_CONTAINER = document.getElementById('project-cards');
 
-export default TODO_CONTAINER
+const MODAL = document.getElementById('updateTodoModal')
+
+export { TODO_CONTAINER, MODAL }

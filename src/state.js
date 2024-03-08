@@ -1,6 +1,7 @@
 import Todo from "./Todo";
-import _renderTodosToDOM from "./ui";
+import { _renderTodosToDOM } from "./ui";
 import { _displayTodo } from "./ui";
+import { _removeTodo } from "./ui";
 
 const todos = []
 
@@ -39,6 +40,15 @@ function _newTodo(e) {
     // }
 }
 
+function _defaultProjects() {
+    const project1 = new Todo('Code more JavaScript', '07/03/2024')
+    const project2 = new Todo('Code even more JavaScript', '07/03/2024')
+    addTodo(project1)
+    addTodo(project2)
+}
 
 
-export { addTodo, removeTodo, getTodos, _newTodo }
+
+
+
+export { addTodo, removeTodo, getTodos, _newTodo, _defaultProjects }
