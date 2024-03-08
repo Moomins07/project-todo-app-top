@@ -6,6 +6,7 @@ import { _closeModal } from "./ui"
 import { MODAL } from "./constants"
 import { _closeModalClickOutside } from "./ui"
 import { _closeModalEscKey } from "./ui"
+import { _handleModalClick } from "./ui"
 
 
 function setEventListeners() {
@@ -15,6 +16,7 @@ function setEventListeners() {
     document.getElementById('closeModalButton').addEventListener('click', _closeModal)
     document.addEventListener('keydown', _closeModalEscKey);
     MODAL.addEventListener('click', _closeModalClickOutside);
+    document.querySelector('.modal').addEventListener('click', _handleModalClick)
     _defaultProjects()
     _renderTodosToDOM()
 }

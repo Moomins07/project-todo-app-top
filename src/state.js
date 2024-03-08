@@ -9,8 +9,13 @@ function addTodo(todo) {
     todos.push(todo)
 }
 
-function removeTodo(id) {
+function _findIndex(id) {
     const index = todos.findIndex((todo) => todo.id === id);
+    return index
+}
+
+function removeTodo(id) {
+    const index = _findIndex(id)
     if (index !== -1) {
         todos.splice(index, 1);
     }
@@ -20,8 +25,11 @@ function getTodos() {
     return todos;
 }
 
-function updateTodos() {
-    // will work this out later
+function updateTodos(id) {
+    const index = _findIndex(id)
+    if (index !== -1) {
+        console.log('found this todo')
+    }
 }
 
 

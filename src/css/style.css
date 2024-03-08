@@ -6,6 +6,10 @@
   .project-card {
     @apply bg-darkBlue1 p-4 rounded-lg flex flex-col justify-around gap-3 hover:-translate-y-1.5 border-l-8 border-lightRed transition ease-in-out relative;
   }
+
+  .todo-list {
+    @apply transition-all duration-1000 ease-in-out max-h-0 group-hover:max-h-96 overflow-hidden;
+  }
 }
 
 .card i {
@@ -32,8 +36,4 @@
   -webkit-line-clamp: 3; /* Number of lines to show, approximate based on average word length */
   -webkit-box-orient: vertical;
   white-space: normal;
-}
-
-.project-card:hover .todo-list {
-  max-height: 500px; /* Example, adjust based on your needs */
 }
