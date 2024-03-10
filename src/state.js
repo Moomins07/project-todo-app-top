@@ -5,7 +5,7 @@ import { _removeTodo } from "./ui";
 
 const todos = []
 
-function addTodo(todo) {
+function addProject(todo) {
     todos.push(todo)
 }
 
@@ -25,7 +25,7 @@ function getTodos() {
     return todos;
 }
 
-function updateTodos(id) {
+function updateTodos(todo) {
     const index = _findIndex(id)
     if (index !== -1) {
         console.log('found this todo')
@@ -42,21 +42,21 @@ function _newTodo(e) {
     // } else {
     e.preventDefault();
     const todo = new Todo(projectText, projectDate)
-    addTodo(todo)
+    addProject(todo)
     _renderTodosToDOM()
-    console.log(todos)
+    console.log(todos[2].todos)
     // }
 }
 
 function _defaultProjects() {
     const project1 = new Todo('Code more JavaScript', '07/03/2024')
     const project2 = new Todo('Code even more JavaScript', '07/03/2024')
-    addTodo(project1)
-    addTodo(project2)
+    addProject(project1)
+    addProject(project2)
 }
 
 
 
 
 
-export { addTodo, removeTodo, getTodos, _newTodo, _defaultProjects }
+export { addProject, removeTodo, getTodos, _newTodo, _defaultProjects }

@@ -12,9 +12,9 @@ function _displayTodo(todo) {
     div.setAttribute('data-id', todo.id)
     div.innerHTML = `
     <i class="fa-lg fa-regular fa-circle-xmark delete"></i>
-    <h2 class="text-2xl truncate">${todo.project}</h2>
+    <h2 class="text-2xl truncate break-words">${todo.project}</h2>
     <h3 class="text-sm">${todo.date}</h3>
-    <p class="truncate-words">${todo.description ? todo.description : 'Update description!'}</p>`
+    <p class="truncate-words">${todo.description ? todo.description : 'Click to add todos!'}</p>`
 
     todoList.classList.add('todo-list')
     div.appendChild(todoList)
@@ -24,6 +24,8 @@ function _displayTodo(todo) {
 
 
     TODO_CONTAINER.appendChild(div)
+
+
 }
 
 
@@ -38,10 +40,15 @@ function _populateModal(e) {
     const modalProjectTitle = document.getElementById('todoTitle')
     const modalProjectDate = document.getElementById('todoDate')
     const modalProjectDescription = document.getElementById('todoDescription')
+    const modalTodoList = document.getElementById('checklistItems')
+
 
     const h2Element = todoCard.querySelector('h2')
     const dateElement = todoCard.querySelector('h3')
     const descriptionElement = todoCard.querySelector('p')
+    const ulElement = todoCard.querySelector('ul')
+    const liElements = ulElement.querySelectorAll('li')
+
 
     if (h2Element) {
         modalProjectTitle.value = h2Element.textContent
@@ -58,6 +65,16 @@ function _populateModal(e) {
     if (descriptionElement) {
         modalProjectDescription.value = descriptionElement.textContent
     } else throw new Error('No date element found')
+
+    if (ulElement) {
+        modalTodoList.innerHTML = ''
+        const liArray = [...liElements]
+        liArray.forEach((li) => {
+            const clonedLi = li.cloneNode(true)
+            clonedLi.classList.add('mb-4')
+            modalTodoList.appendChild(clonedLi)
+        })
+    }
 }
 
 
@@ -97,6 +114,7 @@ function _addItemToModaList(e) {
     } else {
         const listItem = document.createElement('li')
         listItem.textContent = checkListInput.value
+        listItem.style.color = 'green'
         modalList.appendChild(listItem)
     }
 }
