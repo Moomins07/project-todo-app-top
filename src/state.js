@@ -1,7 +1,5 @@
 import Todo from "./Todo";
-import { _renderTodosToDOM } from "./ui";
-import { _displayTodo } from "./ui";
-import { _removeTodo } from "./ui";
+import { _renderTodosToDOM, _displayTodo, _removeTodo } from "./ui";
 
 const todos = []
 
@@ -12,6 +10,11 @@ function addProject(todo) {
 function _findIndex(id) {
     const index = todos.findIndex((todo) => todo.id === id);
     return index
+}
+
+function _grabTodoId(e) {
+    const id = e.target.closest('.card').getAttribute('data-id')
+    return id
 }
 
 function removeTodo(id) {
@@ -25,12 +28,16 @@ function getTodos() {
     return todos;
 }
 
-function updateTodos(todo) {
+
+
+function updateTodo(id) {
     const index = _findIndex(id)
     if (index !== -1) {
-        console.log('found this todo')
+        console.log(`found todo ${index}`)
     }
 }
+
+
 
 
 function _newTodo(e) {
@@ -51,6 +58,7 @@ function _newTodo(e) {
 function _defaultProjects() {
     const project1 = new Todo('Code more JavaScript', '07/03/2024')
     const project2 = new Todo('Code even more JavaScript', '07/03/2024')
+    project2.todos.push('test', 'test1')
     addProject(project1)
     addProject(project2)
 }
@@ -59,4 +67,4 @@ function _defaultProjects() {
 
 
 
-export { addProject, removeTodo, getTodos, _newTodo, _defaultProjects }
+export { addProject, removeTodo, getTodos, _newTodo, _defaultProjects, _findIndex, updateTodo, _grabTodoId }

@@ -1,8 +1,6 @@
-import { getTodos } from "./state";
-import { TODO_CONTAINER } from "./constants";
-import { MODAL } from "./constants";
-import { _defaultProjects } from "./state";
-import { removeTodo } from "./state";
+import { getTodos, updateTodo, _grabTodoId, _findIndex, _defaultProjects, removeTodo } from "./state";
+import { TODO_CONTAINER, MODAL } from "./constants";
+
 
 function _displayTodo(todo) {
     const div = document.createElement('div')
@@ -19,8 +17,7 @@ function _displayTodo(todo) {
     todoList.classList.add('todo-list')
     div.appendChild(todoList)
     todoList.appendChild(ul)
-    ul.appendChild(document.createElement('li')).innerHTML = 'test'
-    ul.appendChild(document.createElement('li')).innerHTML = 'test'
+
 
 
     TODO_CONTAINER.appendChild(div)
@@ -28,52 +25,56 @@ function _displayTodo(todo) {
 
 }
 
+function findTodo(e) {
+    const todoId = _grabTodoId(e); // Extract the todo ID directly from the event
+    const todos = getTodos(); // Get the current todos array
+    const todo = todos.find(todo => todo.id === todoId); // Use .find() to get the todo object
 
-function _showModal(e) {
-    MODAL.classList.remove('hidden');
-    _populateModal(e)
+    return todo
 }
 
-function _populateModal(e) {
-    const todoCard = e.target.closest('.project-card')
-    if (!todoCard) throw new Error('Todo card not found');
+
+function _showAndPopulateModal(e) {
+    MODAL.classList.remove('hidden');
+
+    const todo = findTodo(e)
+    if (todo) {
+        _populateModal(todo);
+    } else {
+        console.error('Todo not found.');
+    }
+}
+
+function _populateModal(todo) {
     const modalProjectTitle = document.getElementById('todoTitle')
     const modalProjectDate = document.getElementById('todoDate')
     const modalProjectDescription = document.getElementById('todoDescription')
     const modalTodoList = document.getElementById('checklistItems')
 
+    modalProjectTitle.value = todo.project
 
-    const h2Element = todoCard.querySelector('h2')
-    const dateElement = todoCard.querySelector('h3')
-    const descriptionElement = todoCard.querySelector('p')
-    const ulElement = todoCard.querySelector('ul')
-    const liElements = ulElement.querySelectorAll('li')
-
-
-    if (h2Element) {
-        modalProjectTitle.value = h2Element.textContent
-    } else throw new Error('No h2 element found')
-
-    if (dateElement) {
-        const dateText = dateElement.textContent; // e.g., "03-07-2024"
+    if (modalProjectDate) {
+        const dateText = todo.date // e.g., "03-07-2024"
         const [day, month, year] = dateText.split('-');
         const formattedDate = `${year}-${month}-${day}`; // Convert to "2024-07-03"
 
         modalProjectDate.value = formattedDate;
     } else throw new Error('No date element found')
 
-    if (descriptionElement) {
-        modalProjectDescription.value = descriptionElement.textContent
+    if (modalProjectDescription) {
+        modalProjectDescription.value = todo.description
     } else throw new Error('No date element found')
 
-    if (ulElement) {
+    if (modalTodoList) {
         modalTodoList.innerHTML = ''
-        const liArray = [...liElements]
-        liArray.forEach((li) => {
-            const clonedLi = li.cloneNode(true)
-            clonedLi.classList.add('mb-4')
-            modalTodoList.appendChild(clonedLi)
-        })
+        // const liArray = [...liElements]
+        console.log(todo.todos)
+        todo.todos.forEach((item) => {
+            const li = document.createElement('li'); // Create a new <li> element
+            li.textContent = item; // Assuming each todo item has a 'text' property
+            li.classList.add('mb-4'); // Add class for styling
+            modalTodoList.appendChild(li); // Append the new <li> to the modal list
+        });
     }
 }
 
@@ -101,11 +102,12 @@ function _handleModalClick(e) {
     } else if (e.target.classList.contains('modalUpdate')) {
         e.stopPropagation()
         e.preventDefault()
-        console.log('update modal button')
+        _updateTodo(e)
     }
 }
 
 function _addItemToModaList(e) {
+
     const modalList = document.getElementById('checklistItems')
     const checkListInput = document.getElementById('checklistItemInput')
 
@@ -127,22 +129,34 @@ function _renderTodosToDOM() {
 
 }
 
+
+
 function _handleClick(e) {
     if (e.target.classList.contains('delete')) {
         _removeTodo(e)
     } else if (e.target.closest('.project-card')) {
         e.stopPropagation()
-        _showModal(e);
+        _showAndPopulateModal(e);
+
+        _grabTodoId(e)
+
     }
 }
 
 function _removeTodo(e) {
     if (confirm('Are you sure you want to delete this project?')) {
-        const id = e.target.closest('.card').getAttribute('data-id')
+        const id = _grabTodoId(e)
         removeTodo(id)
         e.stopPropagation()
         _renderTodosToDOM()
     }
+}
+
+function _updateTodo(e) {
+    const id = _grabTodoId(e)
+    console.log(id)
+    // const id = todoCard.getAttribute('data-id')
+    // updateTodo(id)
 }
 
 export { _renderTodosToDOM, _handleClick, _closeModal, _closeModalClickOutside, _closeModalEscKey, _handleModalClick }
