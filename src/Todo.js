@@ -5,7 +5,7 @@ function Todo(project, date) {
     this.date = formatDate(date)
     this.id = Math.random().toString(16).slice(2)
     this.dateOfCreation = formatDate(Date.now())
-    this.isUrgest = null
+    this.isUrgent = null
     this.description = null
     this.todos = []
 }

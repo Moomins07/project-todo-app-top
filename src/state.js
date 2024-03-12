@@ -2,6 +2,15 @@ import Todo from "./Todo";
 import { _renderTodosToDOM, _displayTodo, _removeTodo } from "./ui";
 
 const todos = []
+let currentTodo = null
+
+function getCurrentTodo() {
+    return currentTodo
+}
+
+function setCurrentTodo(todo) {
+    currentTodo = todo
+}
 
 function addProject(todo) {
     todos.push(todo)
@@ -30,11 +39,10 @@ function getTodos() {
 
 
 
-function updateTodo(id) {
-    const index = _findIndex(id)
-    if (index !== -1) {
-        console.log(`found todo ${index}`)
-    }
+function updateTodo(liArr) {
+    const todo = getCurrentTodo()
+    todo.todos = [...liArr]
+
 }
 
 
@@ -58,7 +66,6 @@ function _newTodo(e) {
 function _defaultProjects() {
     const project1 = new Todo('Code more JavaScript', '07/03/2024')
     const project2 = new Todo('Code even more JavaScript', '07/03/2024')
-    project2.todos.push('test', 'test1')
     addProject(project1)
     addProject(project2)
 }
@@ -67,4 +74,4 @@ function _defaultProjects() {
 
 
 
-export { addProject, removeTodo, getTodos, _newTodo, _defaultProjects, _findIndex, updateTodo, _grabTodoId }
+export { addProject, removeTodo, getTodos, _newTodo, _defaultProjects, _findIndex, updateTodo, _grabTodoId, getCurrentTodo, setCurrentTodo }

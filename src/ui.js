@@ -1,5 +1,6 @@
-import { getTodos, updateTodo, _grabTodoId, _findIndex, _defaultProjects, removeTodo } from "./state";
+import { getTodos, updateTodo, _grabTodoId, _findIndex, _defaultProjects, removeTodo, getCurrentTodo, setCurrentTodo } from "./state";
 import { TODO_CONTAINER, MODAL } from "./constants";
+import formatDate from "./utils";
 
 
 function _displayTodo(todo) {
@@ -17,6 +18,12 @@ function _displayTodo(todo) {
     todoList.classList.add('todo-list')
     div.appendChild(todoList)
     todoList.appendChild(ul)
+    const todoArr = [...todo.todos]
+    todoArr.forEach((todo) => {
+        const li = document.createElement('li')
+        li.innerHTML = todo
+        ul.appendChild(li)
+    })
 
 
 
@@ -25,7 +32,7 @@ function _displayTodo(todo) {
 
 }
 
-function findTodo(e) {
+function _findTodo(e) {
     const todoId = _grabTodoId(e); // Extract the todo ID directly from the event
     const todos = getTodos(); // Get the current todos array
     const todo = todos.find(todo => todo.id === todoId); // Use .find() to get the todo object
@@ -37,7 +44,7 @@ function findTodo(e) {
 function _showAndPopulateModal(e) {
     MODAL.classList.remove('hidden');
 
-    const todo = findTodo(e)
+    const todo = _findTodo(e)
     if (todo) {
         _populateModal(todo);
     } else {
@@ -68,7 +75,6 @@ function _populateModal(todo) {
     if (modalTodoList) {
         modalTodoList.innerHTML = ''
         // const liArray = [...liElements]
-        console.log(todo.todos)
         todo.todos.forEach((item) => {
             const li = document.createElement('li'); // Create a new <li> element
             li.textContent = item; // Assuming each todo item has a 'text' property
@@ -102,7 +108,8 @@ function _handleModalClick(e) {
     } else if (e.target.classList.contains('modalUpdate')) {
         e.stopPropagation()
         e.preventDefault()
-        _updateTodo(e)
+        _updateTodoList(e)
+        _updateTodoInputs(e)
     }
 }
 
@@ -137,9 +144,8 @@ function _handleClick(e) {
     } else if (e.target.closest('.project-card')) {
         e.stopPropagation()
         _showAndPopulateModal(e);
-
-        _grabTodoId(e)
-
+        const todo = _findTodo(e)
+        setCurrentTodo(todo)
     }
 }
 
@@ -152,11 +158,84 @@ function _removeTodo(e) {
     }
 }
 
-function _updateTodo(e) {
-    const id = _grabTodoId(e)
-    console.log(id)
-    // const id = todoCard.getAttribute('data-id')
-    // updateTodo(id)
+
+
+function _renderTodoList(todo) {
+    // Use the todo's id to find the correct .project-card
+    const projectCard = document.querySelector(`.project-card[data-id='${todo.id}']`);
+    if (!projectCard) {
+        console.error('Project card not found for todo id:', todo.id);
+        return;
+    }
+
+    // Within the found .project-card, find the <ul> to update
+    const ul = projectCard.querySelector('.todo-list > ul');
+    if (!ul) {
+        console.error('UL not found within project card for todo id:', todo.id);
+        return;
+    }
+
+    ul.innerHTML = ''; // Clear the existing list items
+
+    // Populate the <ul> with todo items
+    todo.todos.forEach((item) => {
+        const li = document.createElement('li');
+        li.innerHTML = item; // Consider using textContent if the content is plain text
+        ul.appendChild(li);
+    });
+
+    function _renderTodoInputs(todo) {
+
+        const h2 = projectCard.querySelector('h2')
+        const h3 = projectCard.querySelector('h3')
+        const description = projectCard.querySelector('p')
+
+        h2.textContent = todo.project
+        h3.textContent = todo.date
+        description.textContent = todo.description
+
+    }
+    _renderTodoInputs(todo)
+}
+
+
+function _updateTodoInputs(e) {
+    const modalProjectTitle = document.getElementById('todoTitle')
+    const modalProjectDate = document.getElementById('todoDate')
+    const modalProjectDescription = document.getElementById('todoDescription')
+    const modalProjectUrgentCheckbox = document.getElementById('checkboxUrgent')
+
+    const todo = getCurrentTodo()
+
+
+    if (modalProjectUrgentCheckbox.checked) {
+        todo.isUrgent = true
+    } else todo.isUrgent = false
+
+    todo.project = modalProjectTitle.value
+    todo.date = formatDate(modalProjectDate.value)
+    todo.description = modalProjectDescription.value
+
+
+
+    _renderTodoList(todo)
+
+
+}
+
+function _updateTodoList(e) {
+    const modalTodoList = document.getElementById('checklistItems')
+    const todo = getCurrentTodo()
+    const liArr = []
+    const lis = modalTodoList.querySelectorAll('li')
+
+
+    lis.forEach((li) => {
+        liArr.push(li.textContent)
+    })
+
+    updateTodo(liArr)
+    _renderTodoList(todo)
 }
 
 export { _renderTodosToDOM, _handleClick, _closeModal, _closeModalClickOutside, _closeModalEscKey, _handleModalClick }
