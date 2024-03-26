@@ -77,8 +77,9 @@ function _populateModal(todo) {
         // const liArray = [...liElements]
         todo.todos.forEach((item) => {
             const li = document.createElement('li'); // Create a new <li> element
-            li.textContent = item; // Assuming each todo item has a 'text' property
-            li.classList.add('mb-4'); // Add class for styling
+            const liItem = li.textContent = item; // Assuming each todo item has a 'text' property
+            li.innerHTML = `${liItem} <button id="removeListItemFromModal" class="text-gray-400 hover:text-gray-600"><span class="fa fa-times"></span></button>`
+            li.classList.add('mb-4', 'list-item', 'flex', 'justify-between');
             modalTodoList.appendChild(li); // Append the new <li> to the modal list
         });
     }
@@ -105,6 +106,8 @@ function _handleModalClick(e) {
     if (e.target.classList.contains('modalAddItem')) {
         e.stopPropagation()
         _addItemToModaList(e)
+    } else if (e.target.classList.contains('list-item')) {
+        console.log('list-item element found')
     } else if (e.target.classList.contains('modalUpdate')) {
         e.stopPropagation()
         e.preventDefault()
@@ -122,7 +125,9 @@ function _addItemToModaList(e) {
         alert('Please input a value first!')
     } else {
         const listItem = document.createElement('li')
-        listItem.textContent = checkListInput.value
+        const itemText = checkListInput.value;
+        listItem.innerHTML = `${itemText} <button id="removeListItemFromModal" class="text-gray-400 hover:text-gray-600"><span class="fa fa-times"></span></button>`
+        listItem.classList.add('list-item', 'flex', 'justify-between')
         listItem.style.color = 'green'
         modalList.appendChild(listItem)
     }
@@ -180,7 +185,7 @@ function _renderTodoList(todo) {
     // Populate the <ul> with todo items
     todo.todos.forEach((item) => {
         const li = document.createElement('li');
-        li.innerHTML = item; // Consider using textContent if the content is plain text
+        li.innerHTML = item.nameOfTodo;
         ul.appendChild(li);
     });
 
@@ -231,9 +236,10 @@ function _updateTodoList(e) {
 
 
     lis.forEach((li) => {
-        liArr.push(li.textContent)
+        liArr.push({ nameOfTodo: li.textContent, done: null })
     })
 
+    console.log(todo)
     updateTodo(liArr)
     _renderTodoList(todo)
 }
