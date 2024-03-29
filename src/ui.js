@@ -1,4 +1,4 @@
-import { getTodos, updateTodo, _grabTodoId, _findIndex, _defaultProjects, removeTodo, getCurrentTodo, setCurrentTodo } from "./state";
+import { getTodos, updateTodo, _grabTodoId, _findIndex, _defaultProjects, removeTodo, getCurrentTodo, setCurrentTodo, markModalTodoAsComplete } from "./state";
 import { TODO_CONTAINER, MODAL } from "./constants";
 import formatDate from "./utils";
 
@@ -75,11 +75,19 @@ function _populateModal(todo) {
     if (modalTodoList) {
         modalTodoList.innerHTML = ''
         // const liArray = [...liElements]
-        todo.todos.forEach((item) => {
+        todo.todos.forEach((item, index) => {
             const li = document.createElement('li'); // Create a new <li> element
-            const liItem = li.textContent = item; // Assuming each todo item has a 'text' property
+            const liItem = li.textContent = item.nameOfTodo; // Assuming each todo item has a 'text' property
+
+            li.setAttribute('data-index', index)
+
             li.innerHTML = `${liItem} <button id="removeListItemFromModal" class="text-gray-400 hover:text-gray-600"><span class="fa fa-times"></span></button>`
             li.classList.add('mb-4', 'list-item', 'flex', 'justify-between');
+
+            if (item.done) {
+                li.classList.add('line-through');
+            }
+
             modalTodoList.appendChild(li); // Append the new <li> to the modal list
         });
     }
@@ -107,6 +115,7 @@ function _handleModalClick(e) {
         e.stopPropagation()
         _addItemToModaList(e)
     } else if (e.target.classList.contains('list-item')) {
+        _tickModalTodoAsComplete(e)
         console.log('list-item element found')
     } else if (e.target.classList.contains('modalUpdate')) {
         e.stopPropagation()
@@ -115,6 +124,24 @@ function _handleModalClick(e) {
         _updateTodoInputs(e)
     }
 }
+
+function _tickModalTodoAsComplete(e) {
+    const todoIndex = e.target.getAttribute('data-index'); // Get the index of the clicked todo item.
+    const todos = getCurrentTodo().todos; // Assuming this retrieves your array of todos.
+    const todo = todos[todoIndex];
+
+    if (todo) {
+        // Toggle the done status in your data model.
+        todo.done = !todo.done;
+
+        if (todo.done) {
+            e.target.classList.add('line-through');
+        } else {
+            e.target.classList.remove('line-through');
+        }
+    }
+}
+
 
 function _addItemToModaList(e) {
 

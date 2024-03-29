@@ -45,6 +45,15 @@ function updateTodo(liArr) {
 
 }
 
+function markModalTodoAsComplete(index) {
+    const todos = getCurrentTodo().todos; // Assuming this returns your array of todo objects
+    if (todos[index]) {
+        todos[index].done = !todos[index].done; // Toggle the done status
+        console.log(`Todo ${todos[index].nameOfTodo} done status: ${todos[index].done}`);
+    }
+
+}
+
 
 
 
@@ -66,6 +75,7 @@ function _newTodo(e) {
 function _defaultProjects() {
     const project1 = new Todo('Code more JavaScript', '07/03/2024')
     const project2 = new Todo('Code even more JavaScript', '07/03/2024')
+    project1.todos.push('beer')
     addProject(project1)
     addProject(project2)
 }
@@ -74,4 +84,4 @@ function _defaultProjects() {
 
 
 
-export { addProject, removeTodo, getTodos, _newTodo, _defaultProjects, _findIndex, updateTodo, _grabTodoId, getCurrentTodo, setCurrentTodo }
+export { addProject, removeTodo, getTodos, _newTodo, _defaultProjects, _findIndex, updateTodo, _grabTodoId, getCurrentTodo, setCurrentTodo, markModalTodoAsComplete }
