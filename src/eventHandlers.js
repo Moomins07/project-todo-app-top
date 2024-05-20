@@ -1,12 +1,6 @@
-import { _newTodo } from "./state"
-import { _handleClick } from "./ui"
-import { _defaultProjects } from "./state"
-import { _renderTodosToDOM } from "./ui"
-import { _closeModal } from "./ui"
+import { _newTodo, _defaultProjects } from "./state"
+import { _handleClick, _renderTodosToDOM, _closeModal, _closeModalClickOutside, _closeModalEscKey, _handleModalClick } from "./ui"
 import { MODAL } from "./constants"
-import { _closeModalClickOutside } from "./ui"
-import { _closeModalEscKey } from "./ui"
-import { _handleModalClick } from "./ui"
 
 
 function setEventListeners() {

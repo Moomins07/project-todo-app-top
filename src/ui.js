@@ -116,7 +116,7 @@ function _handleModalClick(e) {
         _addItemToModaList(e)
     } else if (e.target.classList.contains('list-item')) {
         _tickModalTodoAsComplete(e)
-        console.log('list-item element found')
+        // console.log('list-item element found')
     } else if (e.target.classList.contains('modalUpdate')) {
         e.stopPropagation()
         e.preventDefault()
@@ -127,8 +127,9 @@ function _handleModalClick(e) {
 
 function _tickModalTodoAsComplete(e) {
     const todoIndex = e.target.getAttribute('data-index'); // Get the index of the clicked todo item.
-    const todos = getCurrentTodo().todos; // Assuming this retrieves your array of todos.
+    const todos = getCurrentTodo().todos; // retrieves array of todos.
     const todo = todos[todoIndex];
+    console.log(todo)
 
     if (todo) {
         // Toggle the done status in your data model.
@@ -138,6 +139,7 @@ function _tickModalTodoAsComplete(e) {
             e.target.classList.add('line-through');
         } else {
             e.target.classList.remove('line-through');
+
         }
     }
 }
