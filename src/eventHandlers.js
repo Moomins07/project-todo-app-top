@@ -1,9 +1,9 @@
 import { _newTodo, _defaultProjects } from "./state"
-import { _handleClick, _renderTodosToDOM, _closeModal, _closeModalEscKey, _handleModalClick, _handleMouseDown, _handleMouseUp } from "./ui"
+import { _handleClick, _renderTodosToDOM, _closeModal, _closeModalEscKey, _handleModalClick, _handleMouseDown, _handleMouseUp, _renderTodoList } from "./ui"
 
 
 function setEventListeners() {
-    document.getElementById('add-todo').addEventListener('click', _newTodo)
+    document.getElementById('add-todo').addEventListener('click', _newTodo, _renderTodoList)
     document.getElementById('project-cards').addEventListener('click', _handleClick)
     // Event handlers to close Modal
     document.getElementById('closeModalButton').addEventListener('click', _closeModal)

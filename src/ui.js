@@ -36,7 +36,7 @@ function _displayTodo(todo) {
 
 function _checkTodoUrgency() {
     const todos = getTodos();
-    console.log(todos);
+
 
     todos.forEach((todo, index) => {
         const card = document.querySelector(`.project-card[data-id="${todo.id}"]`);
@@ -164,7 +164,7 @@ function _tickModalTodoAsComplete(e) {
     const todoIndex = e.target.getAttribute('data-index'); // Get the index of the clicked todo item.
     const todos = getCurrentTodo().todos; // retrieves array of todos.
     const todo = todos[todoIndex];
-    console.log(todo)
+
 
     if (todo) {
         // Toggle the done status in your data model.
@@ -208,6 +208,7 @@ function _renderTodosToDOM() {
     TODO_CONTAINER.innerHTML = ''; // Clear the container here, before the loop
     getTodos().forEach((todo) => {
         _displayTodo(todo)
+        _renderTodoList(todo)
     })
 
     _checkTodoUrgency()
@@ -254,12 +255,14 @@ function _renderTodoList(todo) {
 
     ul.innerHTML = ''; // Clear the existing list items
 
+
     // Populate the <ul> with todo items
     todo.todos.forEach((item) => {
         const li = document.createElement('li');
         li.innerHTML = item.nameOfTodo;
         ul.appendChild(li);
     });
+
 
     function _renderTodoInputs(todo) {
 
@@ -292,10 +295,10 @@ function _updateTodoList(e) {
         liArr.push({ nameOfTodo: li.textContent, done: null })
     })
 
-    console.log(todo)
+
     updateTodo(liArr)
     _renderTodoList(todo)
 }
 
-export { _renderTodosToDOM, _handleClick, _closeModal, _closeModalEscKey, _handleModalClick, _handleMouseDown, _handleMouseUp }
+export { _renderTodosToDOM, _handleClick, _closeModal, _closeModalEscKey, _handleModalClick, _handleMouseDown, _handleMouseUp, _renderTodoList }
 
