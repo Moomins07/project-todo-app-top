@@ -185,6 +185,7 @@ function _addItemToModaList(e) {
     const modalList = document.getElementById('checklistItems')
     const checkListInput = document.getElementById('checklistItemInput')
 
+
     if (checkListInput.value == '') {
         alert('Please input a value first!')
     } else {
@@ -194,7 +195,10 @@ function _addItemToModaList(e) {
         listItem.classList.add('list-item', 'flex', 'justify-between')
         listItem.style.color = 'green'
         modalList.appendChild(listItem)
+        checkListInput.value = ''
+
     }
+
 }
 
 

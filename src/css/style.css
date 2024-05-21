@@ -49,3 +49,8 @@
 .project-card.border-l-8 {
   border-left-width: 8px !important;
 }
+
+li,
+button {
+  user-select: none;
+}
