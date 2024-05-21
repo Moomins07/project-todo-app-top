@@ -1,5 +1,6 @@
 import { Todo, SubTodo } from "./Todo"
 import { _renderTodosToDOM, _displayTodo, _removeTodo } from "./ui";
+import formatDate from "./utils";
 
 const todos = []
 let currentTodo = null
@@ -39,10 +40,27 @@ function getTodos() {
 
 
 
+
 function updateTodo(liArr) {
     const todo = getCurrentTodo()
     todo.todos = [...liArr]
 
+}
+
+function _getUpdatedTodoFromInputs() {
+    const modalProjectTitle = document.getElementById('todoTitle');
+    const modalProjectDate = document.getElementById('todoDate');
+    const modalProjectDescription = document.getElementById('todoDescription');
+    const modalProjectUrgentCheckbox = document.getElementById('checkboxUrgent');
+
+    const todo = getCurrentTodo();
+
+    todo.isUrgent = modalProjectUrgentCheckbox.checked;
+    todo.project = modalProjectTitle.value;
+    todo.date = formatDate(modalProjectDate.value);
+    todo.description = modalProjectDescription.value;
+
+    return todo;
 }
 
 function markModalTodoAsComplete(index) {
@@ -75,6 +93,7 @@ function _newTodo(e) {
 
 function _defaultProjects() {
     const project1 = new Todo('Code more JavaScript', '07/03/2024')
+    project1.isUrgent = true
     const project2 = new Todo('Code even more JavaScript', '07/03/2024')
     project1.todos.push('beer')
     addProject(project1)
@@ -85,4 +104,4 @@ function _defaultProjects() {
 
 
 
-export { addProject, removeTodo, getTodos, _newTodo, _defaultProjects, _findIndex, updateTodo, _grabTodoId, getCurrentTodo, setCurrentTodo, markModalTodoAsComplete }
+export { addProject, removeTodo, getTodos, _newTodo, _defaultProjects, _findIndex, updateTodo, _grabTodoId, getCurrentTodo, setCurrentTodo, markModalTodoAsComplete, _getUpdatedTodoFromInputs }

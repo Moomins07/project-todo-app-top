@@ -4,7 +4,7 @@
 
 @layer components {
   .project-card {
-    @apply bg-darkBlue1 p-6 rounded-lg flex flex-col justify-around gap-3 hover:-translate-y-1.5 border-l-8 border-lightRed transition ease-in-out relative;
+    @apply bg-darkBlue1 p-6 rounded-lg flex flex-col justify-around gap-3 hover:-translate-y-1.5  border-lightRed transition ease-in-out relative;
   }
 
   .todo-list {
@@ -44,4 +44,8 @@
 
 .line-through {
   text-decoration: line-through !important;
+}
+
+.project-card.border-l-8 {
+  border-left-width: 8px !important;
 }
