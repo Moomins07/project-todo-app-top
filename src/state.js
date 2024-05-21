@@ -1,4 +1,4 @@
-import Todo from "./Todo";
+import { Todo, SubTodo } from "./Todo"
 import { _renderTodosToDOM, _displayTodo, _removeTodo } from "./ui";
 
 const todos = []
@@ -68,9 +68,10 @@ function _newTodo(e) {
     const todo = new Todo(projectText, projectDate)
     addProject(todo)
     _renderTodosToDOM()
-    console.log(todos[2].todos)
+    // console.log(todos[2].todos)
     // }
 }
+
 
 function _defaultProjects() {
     const project1 = new Todo('Code more JavaScript', '07/03/2024')

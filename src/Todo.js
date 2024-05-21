@@ -10,5 +10,11 @@ function Todo(project, date) {
     this.todos = []
 }
 
+function SubTodo(name) {
+    this.name = name
+    this.done = null
+    this.id = Math.random().toString(16).slice(2)
+}
 
-export default Todo
+
+export { Todo, SubTodo }
