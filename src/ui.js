@@ -34,22 +34,26 @@ function _displayTodo(todo) {
 }
 
 
-function _checkTodoUrgency() {
-    const todos = getTodos();
 
 
-    todos.forEach((todo, index) => {
-        const card = document.querySelector(`.project-card[data-id="${todo.id}"]`);
+function _checkTodoUrgency(todo = null) {
+    const todos = todo ? [todo] : getTodos();
+    // If 'todo' is provided, 'todos' will be an array containing only that single 'todo'.
+    // If 'todo' is not provided, 'todos' will be the array of all todos returned by 'getTodos()'.
+    todos.forEach((t) => {
+        const card = document.querySelector(`.project-card[data-id="${t.id}"]`);
+        const checkbox = document.getElementById('checkboxUrgent');
 
         if (card) {
-            if (todo.isUrgent) {
+            if (t.isUrgent) {
                 card.classList.add('border-l-8');
-
+                if (todo) checkbox.checked = true;
             } else {
-                card.classList.remove('border-l-8'); // Optionally remove the class if not urgent
+                card.classList.remove('border-l-8');
+                if (todo) checkbox.checked = false;
             }
         } else {
-            console.log(`Card not found for todo with id: ${todo.id}`);
+            console.log(`Card not found for todo with id: ${t.id}`);
         }
     });
 }
@@ -71,6 +75,7 @@ function _showAndPopulateModal(e) {
 
     const todo = _findTodo(e)
     if (todo) {
+        _checkTodoUrgency(todo)
         _populateModal(todo);
     } else {
         console.error('Todo not found.');
