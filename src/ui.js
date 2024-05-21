@@ -1,4 +1,4 @@
-import { getTodos, updateTodo, _grabTodoId, _findIndex, _defaultProjects, removeTodo, getCurrentTodo, setCurrentTodo, markModalTodoAsComplete, _getUpdatedTodoFromInputs } from "./state";
+import { getTodos, updateTodo, _grabTodoId, _findIndex, _defaultProjects, removeTodo, getCurrentTodo, setCurrentTodo, _getUpdatedTodoFromInputs, _checkModalTodoAsComplete } from "./state";
 import { TODO_CONTAINER, MODAL } from "./constants";
 
 let mouseDownOutside = false;
@@ -165,22 +165,14 @@ function _handleModalClick(e) {
     }
 }
 
+
 function _tickModalTodoAsComplete(e) {
-    const todoIndex = e.target.getAttribute('data-index'); // Get the index of the clicked todo item.
-    const todos = getCurrentTodo().todos; // retrieves array of todos.
-    const todo = todos[todoIndex];
+    const todo = _checkModalTodoAsComplete(e)
+    if (todo.done) {
+        e.target.classList.add('line-through');
+    } else {
+        e.target.classList.remove('line-through');
 
-
-    if (todo) {
-        // Toggle the done status in your data model.
-        todo.done = !todo.done;
-
-        if (todo.done) {
-            e.target.classList.add('line-through');
-        } else {
-            e.target.classList.remove('line-through');
-
-        }
     }
 }
 

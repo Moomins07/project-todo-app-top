@@ -63,16 +63,22 @@ function _getUpdatedTodoFromInputs() {
     return todo;
 }
 
-function markModalTodoAsComplete(index) {
-    const todos = getCurrentTodo().todos; // Assuming this returns your array of todo objects
-    if (todos[index]) {
-        todos[index].done = !todos[index].done; // Toggle the done status
-        console.log(`Todo ${todos[index].nameOfTodo} done status: ${todos[index].done}`);
+
+
+function _checkModalTodoAsComplete(e) {
+    const todoIndex = e.target.getAttribute('data-index'); // Get the index of the clicked todo item.
+    const todos = getCurrentTodo().todos; // retrieves array of todos.
+    const todo = todos[todoIndex];
+
+
+    if (todo) {
+        // Toggle the done status in your data model.
+        todo.done = !todo.done;
+        console.log(todo)
     }
 
+    return todo
 }
-
-
 
 
 function _newTodo(e) {
@@ -96,6 +102,7 @@ function _defaultProjects() {
     project1.isUrgent = true
     const project2 = new Todo('Code even more JavaScript', '07/03/2024')
     project1.todos.push('beer')
+    project2.todos.push('shopping')
     addProject(project1)
     addProject(project2)
 }
@@ -104,4 +111,4 @@ function _defaultProjects() {
 
 
 
-export { addProject, removeTodo, getTodos, _newTodo, _defaultProjects, _findIndex, updateTodo, _grabTodoId, getCurrentTodo, setCurrentTodo, markModalTodoAsComplete, _getUpdatedTodoFromInputs }
+export { addProject, removeTodo, getTodos, _newTodo, _defaultProjects, _findIndex, updateTodo, _grabTodoId, getCurrentTodo, setCurrentTodo, _getUpdatedTodoFromInputs, _checkModalTodoAsComplete }
