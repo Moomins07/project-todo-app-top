@@ -1,5 +1,5 @@
 import { _newTodo, _defaultProjects } from "./state"
-import { _handleClick, _renderTodosToDOM, _closeModal, _closeModalClickOutside, _closeModalEscKey, _handleModalClick } from "./ui"
+import { _handleClick, _renderTodosToDOM, _closeModal, _closeModalEscKey, _handleModalClick, _handleMouseDown, _handleMouseUp } from "./ui"
 import { MODAL } from "./constants"
 
 
@@ -9,7 +9,9 @@ function setEventListeners() {
     // Event handlers to close Modal
     document.getElementById('closeModalButton').addEventListener('click', _closeModal)
     document.addEventListener('keydown', _closeModalEscKey);
-    MODAL.addEventListener('click', _closeModalClickOutside);
+    // MODAL.addEventListener('click', _closeModalClickOutside);
+    document.addEventListener('mousedown', _handleMouseDown);
+    document.addEventListener('mouseup', _handleMouseUp);
     document.querySelector('.modal').addEventListener('click', _handleModalClick)
     _defaultProjects()
     _renderTodosToDOM()

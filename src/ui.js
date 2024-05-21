@@ -2,6 +2,8 @@ import { getTodos, updateTodo, _grabTodoId, _findIndex, _defaultProjects, remove
 import { TODO_CONTAINER, MODAL } from "./constants";
 import formatDate from "./utils";
 
+let mouseDownOutside = false;
+
 
 function _displayTodo(todo) {
     const div = document.createElement('div')
@@ -104,11 +106,25 @@ function _closeModalEscKey(e) {
     }
 }
 
-function _closeModalClickOutside(e) {
+function _handleMouseDown(e) {
     if (!e.target.closest('.modal')) {
+        mouseDownOutside = true;
+    } else {
+        mouseDownOutside = false;
+    }
+}
+
+function _handleMouseUp(e) {
+    if (mouseDownOutside && !e.target.closest('.modal')) {
         _closeModal();
     }
 }
+
+// function _closeModalClickOutside(e) {
+//     if (!e.target.closest('.modal')) {
+//         _closeModal();
+//     }
+// }
 
 function _handleModalClick(e) {
     if (e.target.classList.contains('modalAddItem')) {
@@ -273,5 +289,5 @@ function _updateTodoList(e) {
     _renderTodoList(todo)
 }
 
-export { _renderTodosToDOM, _handleClick, _closeModal, _closeModalClickOutside, _closeModalEscKey, _handleModalClick }
+export { _renderTodosToDOM, _handleClick, _closeModal, _closeModalEscKey, _handleModalClick, _handleMouseDown, _handleMouseUp }
 
