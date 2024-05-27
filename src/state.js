@@ -65,20 +65,21 @@ function _getUpdatedTodoFromInputs() {
 
 
 
-function _checkModalTodoAsComplete(e) {
-    const todoIndex = e.target.getAttribute('data-index'); // Get the index of the clicked todo item.
-    const todos = getCurrentTodo().todos; // retrieves array of todos.
-    const todo = todos[todoIndex];
-
+function _checkModalTodoAsComplete(e = null, todo = null) {
+    if (e) {
+        const todoIndex = e.target.getAttribute('data-index'); // Get the index of the clicked todo item.
+        const todos = getCurrentTodo().todos; // retrieves array of todos.
+        todo = todos[todoIndex];
+    }
 
     if (todo) {
         // Toggle the done status in your data model.
         todo.done = !todo.done;
-        console.log(todo)
     }
 
-    return todo
+    return todo;
 }
+
 
 
 function _newTodo(e) {
@@ -101,8 +102,8 @@ function _defaultProjects() {
     const project1 = new Todo('Code more JavaScript', '07/03/2024')
     project1.isUrgent = true
     const project2 = new Todo('Code even more JavaScript', '07/03/2024')
-    project1.todos.push('beer')
-    project2.todos.push('shopping')
+    project1.todos.push(new SubTodo('beer'))
+    project2.todos.push(new SubTodo('exercise'))
     addProject(project1)
     addProject(project2)
 }

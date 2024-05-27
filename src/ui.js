@@ -1,4 +1,5 @@
 import { getTodos, updateTodo, _grabTodoId, _findIndex, _defaultProjects, removeTodo, getCurrentTodo, setCurrentTodo, _getUpdatedTodoFromInputs, _checkModalTodoAsComplete } from "./state";
+import { SubTodo } from "./Todo";
 import { TODO_CONTAINER, MODAL } from "./constants";
 
 let mouseDownOutside = false;
@@ -48,6 +49,7 @@ function _checkTodoUrgency(todo = null) {
             if (t.isUrgent) {
                 card.classList.add('border-l-8');
                 if (todo) checkbox.checked = true;
+
             } else {
                 card.classList.remove('border-l-8');
                 if (todo) checkbox.checked = false;
@@ -107,12 +109,15 @@ function _populateModal(todo) {
         // const liArray = [...liElements]
         todo.todos.forEach((item, index) => {
             const li = document.createElement('li'); // Create a new <li> element
-            const liItem = li.textContent = item.nameOfTodo; // Assuming each todo item has a 'text' property
+            const liItem = li.textContent = item.name; // Assuming each todo item has a 'text' property
 
             li.setAttribute('data-index', index)
 
             li.innerHTML = `${liItem} <button id="removeListItemFromModal" class="text-gray-400 hover:text-gray-600"><span class="fa fa-times"></span></button>`
             li.classList.add('mb-4', 'list-item', 'flex', 'justify-between');
+
+            console.log(item)
+
 
             if (item.done) {
                 li.classList.add('line-through');
@@ -166,13 +171,30 @@ function _handleModalClick(e) {
 }
 
 
-function _tickModalTodoAsComplete(e) {
-    const todo = _checkModalTodoAsComplete(e)
-    if (todo.done) {
-        e.target.classList.add('line-through');
-    } else {
-        e.target.classList.remove('line-through');
+function _tickModalTodoAsComplete(e = null, todo = null) {
+    // Determine the source of the 'todo' object
+    const todoItem = e ? _checkModalTodoAsComplete(e) : todo;
 
+    // Ensure 'todoItem' is defined
+    if (!todoItem) {
+        console.error('Todo item is not defined.');
+        return;
+    }
+
+    // Check if the 'done' property exists on the 'todoItem'
+    if (todoItem.done) {
+        // Handle the event case
+        if (e && e.target) {
+            e.target.classList.add('line-through');
+            console.log(todoItem)
+        }
+    } else {
+        // Handle the event case
+        if (e && e.target) {
+            e.target.classList.remove('line-through');
+            console.log(todoItem)
+
+        }
     }
 }
 
@@ -186,8 +208,11 @@ function _addItemToModaList(e) {
     if (checkListInput.value == '') {
         alert('Please input a value first!')
     } else {
+
         const listItem = document.createElement('li')
         const itemText = checkListInput.value;
+        new SubTodo(itemText)
+
         listItem.innerHTML = `${itemText} <button id="removeListItemFromModal" class="text-gray-400 hover:text-gray-600"><span class="fa fa-times"></span></button>`
         listItem.classList.add('list-item', 'flex', 'justify-between')
         listItem.style.color = 'green'
@@ -256,7 +281,15 @@ function _renderTodoList(todo) {
     // Populate the <ul> with todo items
     todo.todos.forEach((item) => {
         const li = document.createElement('li');
-        li.innerHTML = item.nameOfTodo;
+
+        if (item) {
+            if (item.done) {
+                li.classList.add('line-through');
+            }
+
+        }
+
+        li.innerHTML = item.name;
         ul.appendChild(li);
     });
 
@@ -287,10 +320,12 @@ function _updateTodoList(e) {
     const liArr = []
     const lis = modalTodoList.querySelectorAll('li')
 
+    // lis.forEach((li) => {
+    //     const newSubTodo = new SubTodo(li.textContent)
+    //     liArr.push(newSubTodo)
+    // })
 
-    lis.forEach((li) => {
-        liArr.push({ nameOfTodo: li.textContent, done: null })
-    })
+    console.log(todo)
 
 
     updateTodo(liArr)

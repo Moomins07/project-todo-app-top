@@ -12,7 +12,7 @@ function Todo(project, date) {
 
 function SubTodo(name) {
     this.name = name
-    this.done = null
+    this.done = false
     this.id = Math.random().toString(16).slice(2)
 }
 
