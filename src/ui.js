@@ -1,4 +1,4 @@
-import { getTodos, updateTodo, _grabTodoId, _findIndex, _defaultProjects, removeTodo, getCurrentTodo, setCurrentTodo, _getUpdatedTodoFromInputs, _checkModalTodoAsComplete } from "./state";
+import { getTodos, updateTodo, _grabTodoId, _findIndex, _defaultProjects, removeTodo, getCurrentTodo, setCurrentTodo, _getUpdatedTodoFromInputs, _checkModalTodoAsComplete, _newSubTodo, getSubTodos } from "./state";
 import { SubTodo } from "./Todo";
 import { TODO_CONTAINER, MODAL } from "./constants";
 
@@ -116,7 +116,6 @@ function _populateModal(todo) {
             li.innerHTML = `${liItem} <button id="removeListItemFromModal" class="text-gray-400 hover:text-gray-600"><span class="fa fa-times"></span></button>`
             li.classList.add('mb-4', 'list-item', 'flex', 'justify-between');
 
-            console.log(item)
 
 
             if (item.done) {
@@ -157,6 +156,7 @@ function _handleMouseUp(e) {
 function _handleModalClick(e) {
     if (e.target.classList.contains('modalAddItem')) {
         e.stopPropagation()
+        _renderTodosToDOM()
         _addItemToModaList(e)
     } else if (e.target.classList.contains('list-item')) {
         _tickModalTodoAsComplete(e)
@@ -164,7 +164,7 @@ function _handleModalClick(e) {
     } else if (e.target.classList.contains('modalUpdate')) {
         e.stopPropagation()
         e.preventDefault()
-        _updateTodoList(e)
+        // _updateTodoList(e)
         _updateTodoInputs(e)
         _checkTodoUrgency()
     }
@@ -186,13 +186,13 @@ function _tickModalTodoAsComplete(e = null, todo = null) {
         // Handle the event case
         if (e && e.target) {
             e.target.classList.add('line-through');
-            console.log(todoItem)
+            // console.log(todoItem)
         }
     } else {
         // Handle the event case
         if (e && e.target) {
             e.target.classList.remove('line-through');
-            console.log(todoItem)
+            // console.log(todoItem)
 
         }
     }
@@ -200,6 +200,9 @@ function _tickModalTodoAsComplete(e = null, todo = null) {
 
 
 function _addItemToModaList(e) {
+
+    const todo = getCurrentTodo()
+
 
     const modalList = document.getElementById('checklistItems')
     const checkListInput = document.getElementById('checklistItemInput')
@@ -211,7 +214,9 @@ function _addItemToModaList(e) {
 
         const listItem = document.createElement('li')
         const itemText = checkListInput.value;
-        new SubTodo(itemText)
+        const newSubTodo = new SubTodo(itemText)
+
+        todo.todos.push(newSubTodo)
 
         listItem.innerHTML = `${itemText} <button id="removeListItemFromModal" class="text-gray-400 hover:text-gray-600"><span class="fa fa-times"></span></button>`
         listItem.classList.add('list-item', 'flex', 'justify-between')
@@ -281,7 +286,7 @@ function _renderTodoList(todo) {
     // Populate the <ul> with todo items
     todo.todos.forEach((item) => {
         const li = document.createElement('li');
-
+        console.log(todo.todos)
         if (item) {
             if (item.done) {
                 li.classList.add('line-through');

@@ -38,6 +38,10 @@ function getTodos() {
     return todos;
 }
 
+function getSubTodos(todo) {
+    return todo.todos
+}
+
 
 
 
@@ -97,6 +101,14 @@ function _newTodo(e) {
     // }
 }
 
+function _newSubTodo(todo) {
+    const subTodoName = document.getElementById('checklistItemInpit').value
+
+    const newSubTodo = new SubTodo(subTodoName)
+
+    todo.todos.push(newSubTodo)
+}
+
 
 function _defaultProjects() {
     const project1 = new Todo('Code more JavaScript', '07/03/2024')
@@ -112,4 +124,4 @@ function _defaultProjects() {
 
 
 
-export { addProject, removeTodo, getTodos, _newTodo, _defaultProjects, _findIndex, updateTodo, _grabTodoId, getCurrentTodo, setCurrentTodo, _getUpdatedTodoFromInputs, _checkModalTodoAsComplete }
+export { addProject, removeTodo, getTodos, _newTodo, _defaultProjects, _findIndex, updateTodo, _grabTodoId, getCurrentTodo, setCurrentTodo, _getUpdatedTodoFromInputs, _checkModalTodoAsComplete, _newSubTodo, getSubTodos }
