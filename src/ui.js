@@ -156,10 +156,11 @@ function _handleMouseUp(e) {
 function _handleModalClick(e) {
     if (e.target.classList.contains('modalAddItem')) {
         e.stopPropagation()
-        _renderTodosToDOM()
         _addItemToModaList(e)
+        _renderTodosToDOM()
     } else if (e.target.classList.contains('list-item')) {
         _tickModalTodoAsComplete(e)
+        _updateTodoInputs()
         // console.log('list-item element found')
     } else if (e.target.classList.contains('modalUpdate')) {
         e.stopPropagation()
@@ -286,7 +287,7 @@ function _renderTodoList(todo) {
     // Populate the <ul> with todo items
     todo.todos.forEach((item) => {
         const li = document.createElement('li');
-        console.log(todo.todos)
+        console.log(item)
         if (item) {
             if (item.done) {
                 li.classList.add('line-through');
