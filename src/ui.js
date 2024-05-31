@@ -111,7 +111,10 @@ function _populateModal(todo) {
             const li = document.createElement('li'); // Create a new <li> element
             const liItem = li.textContent = item.name; // Assuming each todo item has a 'text' property
 
+
+
             li.setAttribute('data-index', index)
+
 
             li.innerHTML = `${liItem} <button id="removeListItemFromModal" class="text-gray-400 hover:text-gray-600"><span class="fa fa-times"></span></button>`
             li.classList.add('mb-4', 'list-item', 'flex', 'justify-between');
@@ -168,6 +171,10 @@ function _handleModalClick(e) {
         // _updateTodoList(e)
         _updateTodoInputs(e)
         _checkTodoUrgency()
+    } else if (e.target.closest('#removeListItemFromModal')) {
+        e.stopPropagation()
+        e.preventDefault()
+        console.log('works')
     }
 }
 
@@ -217,12 +224,16 @@ function _addItemToModaList(e) {
         const itemText = checkListInput.value;
         const newSubTodo = new SubTodo(itemText)
 
+
         todo.todos.push(newSubTodo)
 
+        listItem.setAttribute('data-id', newSubTodo.id)
+        console.log(listItem)
         listItem.innerHTML = `${itemText} <button id="removeListItemFromModal" class="text-gray-400 hover:text-gray-600"><span class="fa fa-times"></span></button>`
         listItem.classList.add('list-item', 'flex', 'justify-between')
         listItem.style.color = 'green'
         modalList.appendChild(listItem)
+
         checkListInput.value = ''
 
     }
@@ -264,6 +275,15 @@ function _removeTodo(e) {
     }
 }
 
+function _removeTodoListItem(e) {
+    if (confirm('Are you sure you want to delete this todo?')) {
+        const id = _grabTodoId(e)
+        removeTodo(id)
+        e.stopPropagation()
+        _renderTodosToDOM()
+    }
+}
+
 
 
 function _renderTodoList(todo) {
@@ -287,7 +307,9 @@ function _renderTodoList(todo) {
     // Populate the <ul> with todo items
     todo.todos.forEach((item) => {
         const li = document.createElement('li');
-        console.log(item)
+        const todosId = item.id
+        console.log(todosId)
+
         if (item) {
             if (item.done) {
                 li.classList.add('line-through');
@@ -295,6 +317,7 @@ function _renderTodoList(todo) {
 
         }
 
+        li.setAttribute('data-id', todosId)
         li.innerHTML = item.name;
         ul.appendChild(li);
     });

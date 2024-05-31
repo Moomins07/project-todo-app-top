@@ -23,7 +23,7 @@ function _findIndex(id) {
 }
 
 function _grabTodoId(e) {
-    const id = e.target.closest('.card').getAttribute('data-id')
+    const id = e.target.closest('.card') ? e.target.closest('.card').getAttribute('data-id') : e.target.closest('#removeListItemFromModal').getAttribute('data-id')
     return id
 }
 
