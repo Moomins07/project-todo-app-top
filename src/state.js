@@ -19,20 +19,40 @@ function addProject(todo) {
 
 function _findIndex(id) {
     const index = todos.findIndex((todo) => todo.id === id);
-    return index
+
+    if (index !== -1) {
+        return { isMainTodo: true, index };
+    }
+
+    for (let i = 0; i < todos.length; i++) {
+        const subTodoIndex = todos[i].todos.findIndex((subTodo) => subTodo.id === id);
+        if (subTodoIndex !== -1) {
+            return { isMainTodo: false, parentIndex: i, subIndex: subTodoIndex };
+        }
+    }
+
+    return { isMainTodo: false, index: -1 };
 }
 
+
+
 function _grabTodoId(e) {
-    const id = e.target.closest('.card') ? e.target.closest('.card').getAttribute('data-id') : e.target.closest('#removeListItemFromModal').getAttribute('data-id')
-    return id
+    const cardElement = e.target.closest('.card');
+    const modalElement = e.target.closest('li');
+    const id = cardElement ? cardElement.getAttribute('data-id') : (modalElement ? modalElement.getAttribute('data-id') : null);
+    return id;
 }
 
 function removeTodo(id) {
-    const index = _findIndex(id)
-    if (index !== -1) {
+    const { isMainTodo, index, parentIndex, subIndex } = _findIndex(id);
+
+    if (isMainTodo && index !== -1 && !id.includes('SUBTODO')) {
         todos.splice(index, 1);
+    } else if (!isMainTodo && subIndex !== -1) {
+        todos[parentIndex].todos.splice(subIndex, 1);
     }
 }
+
 
 function getTodos() {
     return todos;

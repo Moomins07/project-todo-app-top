@@ -13,7 +13,7 @@ function Todo(project, date) {
 function SubTodo(name) {
     this.name = name
     this.done = false
-    this.id = Math.random().toString(16).slice(2)
+    this.id = Math.random().toString(16).slice(2) + '-SUBTODO'
 }
 
 

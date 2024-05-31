@@ -114,6 +114,7 @@ function _populateModal(todo) {
 
 
             li.setAttribute('data-index', index)
+            li.setAttribute('data-id', item.id)
 
 
             li.innerHTML = `${liItem} <button id="removeListItemFromModal" class="text-gray-400 hover:text-gray-600"><span class="fa fa-times"></span></button>`
@@ -174,7 +175,8 @@ function _handleModalClick(e) {
     } else if (e.target.closest('#removeListItemFromModal')) {
         e.stopPropagation()
         e.preventDefault()
-        console.log('works')
+        _removeTodoListItem()
+        console.log(_grabTodoId(e))
     }
 }
 
