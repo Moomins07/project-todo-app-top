@@ -358,23 +358,6 @@ function _updateTodoInputs() {
     _renderTodoList(todo);
 }
 
-function _updateTodoList(e) {
-    const modalTodoList = document.getElementById('checklistItems')
-    const todo = getCurrentTodo()
-    const liArr = []
-    const lis = modalTodoList.querySelectorAll('li')
-
-    // lis.forEach((li) => {
-    //     const newSubTodo = new SubTodo(li.textContent)
-    //     liArr.push(newSubTodo)
-    // })
-
-    console.log(todo)
-
-
-    updateTodo(liArr)
-    _renderTodoList(todo)
-}
 
 export { _renderTodosToDOM, _handleClick, _closeModal, _closeModalEscKey, _handleModalClick, _handleMouseDown, _handleMouseUp, _renderTodoList }
 
