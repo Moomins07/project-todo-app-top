@@ -49,7 +49,11 @@ function removeTodo(id) {
     if (isMainTodo && index !== -1 && !id.includes('SUBTODO')) {
         todos.splice(index, 1);
     } else if (!isMainTodo && subIndex !== -1) {
-        todos[parentIndex].todos.splice(subIndex, 1);
+        todos[parentIndex].todos.splice(subIndex, 1)
+
+        if (todos[parentIndex].todos[subIndex]) {
+            console.log('found the subtodo')
+        } else console.log('subtodo removed')
     }
 }
 
