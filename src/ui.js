@@ -294,6 +294,7 @@ function _removeTodoListItem(e) {
         removeTodo(id)
         e.stopPropagation()
         console.log(todo)
+        _renderTodoList(todo)
         _populateModalTodoList(todo)
     }
 }
