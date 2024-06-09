@@ -1,6 +1,7 @@
-import { Todo, SubTodo } from "./Todo"
-import { _renderTodosToDOM, _displayTodo, _removeTodo } from "./ui";
+import { Todo, SubTodo, Project } from "./Todo"
+import { _renderTodosToDOM, _displayTodo, _removeTodo, _renderProjectNamesToDOM } from "./ui";
 import formatDate from "./utils";
+
 
 const todos = []
 let currentTodo = null
@@ -109,6 +110,15 @@ function _checkModalTodoAsComplete(e = null, todo = null) {
 }
 
 
+function _newProject(e) {
+    const projectText = document.getElementById('project').value
+    e.preventDefault()
+    const project = new Project(projectText)
+    addProject(project)
+    _renderProjectNamesToDOM(e)
+
+}
+
 
 function _newTodo(e) {
     const projectText = document.getElementById('project').value
@@ -148,4 +158,4 @@ function _defaultProjects() {
 
 
 
-export { addProject, removeTodo, getTodos, _newTodo, _defaultProjects, _findIndex, updateTodo, _grabTodoId, getCurrentTodo, setCurrentTodo, _getUpdatedTodoFromInputs, _checkModalTodoAsComplete, _newSubTodo, getSubTodos }
+export { addProject, removeTodo, getTodos, _newTodo, _defaultProjects, _findIndex, updateTodo, _grabTodoId, getCurrentTodo, setCurrentTodo, _getUpdatedTodoFromInputs, _checkModalTodoAsComplete, _newSubTodo, getSubTodos, _newProject }

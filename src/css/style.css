@@ -23,6 +23,26 @@
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 }
 
+.project-names {
+  flex-wrap: wrap !important;
+}
+
+.project-button {
+  transition: transform 0.3s ease-in-out; /* Define the property and duration */
+  border-radius: 0.2rem;
+  padding: 0.2rem 0.5rem;
+}
+
+.project-button:hover {
+  transform: scale(1.1);
+}
+
+.active-button {
+  background-color: #10161f; /* Change background color for active button */
+  color: white; /* Change text color for active button */
+  border: 2px solid #ffffff; /* Optional: Add a border for emphasis */
+}
+
 .card {
   min-height: 200px;
   cursor: pointer;

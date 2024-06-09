@@ -1,4 +1,17 @@
-import { getTodos, updateTodo, _grabTodoId, _findIndex, _defaultProjects, removeTodo, getCurrentTodo, setCurrentTodo, _getUpdatedTodoFromInputs, _checkModalTodoAsComplete, _newSubTodo, getSubTodos } from "./state";
+import {
+    getTodos,
+    updateTodo,
+    _grabTodoId,
+    _findIndex,
+    _defaultProjects,
+    removeTodo,
+    getCurrentTodo,
+    setCurrentTodo,
+    _getUpdatedTodoFromInputs,
+    _checkModalTodoAsComplete,
+    _newSubTodo,
+    getSubTodos
+} from "./state";
 import { SubTodo } from "./Todo";
 import { TODO_CONTAINER, MODAL } from "./constants";
 
@@ -35,7 +48,37 @@ function _displayTodo(todo) {
 }
 
 
+function _renderProjectNamesToDOM() {
+    console.log('working')
+    const projects = getTodos()
+    const projectNamesDiv = document.getElementById('project-names')
 
+    console.log(projects)
+
+    projectNamesDiv.innerHTML = ''
+
+    projects.forEach((project) => {
+        const button = document.createElement('button')
+
+
+        button.classList.add('project-button', 'text-xl')
+
+        button.setAttribute('data-id', project.id)
+        button.innerHTML = `${project.name}`
+        button.addEventListener('click', handleButtonClick);
+        projectNamesDiv.append(button)
+    })
+}
+
+
+function handleButtonClick(event) {
+    // Remove 'active-button' class from all buttons
+    const buttons = document.querySelectorAll('#project-names button');
+    buttons.forEach(button => button.classList.remove('active-button'));
+
+    // Add 'active-button' class to the clicked button
+    event.target.classList.add('active-button');
+}
 
 function _checkTodoUrgency(todo = null) {
     const todos = todo ? [todo] : getTodos();
@@ -338,15 +381,19 @@ function _renderTodoList(todo) {
     });
 
 
+
+
     function _renderTodoInputs(todo) {
 
         const h2 = projectCard.querySelector('h2')
         const h3 = projectCard.querySelector('h3')
         const description = projectCard.querySelector('p')
 
-        h2.textContent = todo.project
+        h2.textContent = todo.project != '' ? todo.project : 'Add title here!'
         h3.textContent = todo.date
-        description.textContent = todo.description
+
+
+        description.textContent = todo.description != '' ? todo.description : 'Add description here!'
 
     }
     _renderTodoInputs(todo)
@@ -359,5 +406,15 @@ function _updateTodoInputs() {
 }
 
 
-export { _renderTodosToDOM, _handleClick, _closeModal, _closeModalEscKey, _handleModalClick, _handleMouseDown, _handleMouseUp, _renderTodoList }
+export {
+    _renderTodosToDOM,
+    _handleClick,
+    _closeModal,
+    _closeModalEscKey,
+    _handleModalClick,
+    _handleMouseDown,
+    _handleMouseUp,
+    _renderTodoList,
+    _renderProjectNamesToDOM
+}
 

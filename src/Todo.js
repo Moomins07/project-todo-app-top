@@ -16,5 +16,11 @@ function SubTodo(name) {
     this.id = Math.random().toString(16).slice(2) + '-SUBTODO'
 }
 
+function Project(name) {
+    this.name = name
+    this.id = Math.random().toString(16).slice(2)
+    this.projectTodos = []
+}
 
-export { Todo, SubTodo }
+
+export { Todo, SubTodo, Project }
