@@ -5,6 +5,7 @@ import formatDate from "./utils";
 
 const todos = []
 let currentTodo = null
+let currentProject = null
 
 function getCurrentTodo() {
     return currentTodo
@@ -12,6 +13,14 @@ function getCurrentTodo() {
 
 function setCurrentTodo(todo) {
     currentTodo = todo
+}
+
+function getCurrentProject() {
+    return currentProject
+}
+
+function setCurrentProject(project) {
+    currentProject = project
 }
 
 function addProject(todo) {
@@ -111,12 +120,24 @@ function _checkModalTodoAsComplete(e = null, todo = null) {
 
 
 function _newProject(e) {
+    const projectName = document.getElementById('project')
     const projectText = document.getElementById('project').value
+    const projectDate = document.getElementById('project-date').value
+
+
+
     e.preventDefault()
+
+    // if (projectText === '' || projectDate === '') {
+    //     alert('Please fill in both fields!')
+    // } else {
     const project = new Project(projectText)
     addProject(project)
+    setCurrentProject(project)
     _renderProjectNamesToDOM(e)
-
+    // console.log(`Current Project:`, getCurrentProject())
+    // }
+    projectName.innerHTML = ''
 }
 
 
@@ -145,17 +166,40 @@ function _newSubTodo(todo) {
 
 
 function _defaultProjects() {
-    const project1 = new Todo('Code more JavaScript', '07/03/2024')
+
+    const project1 = new Project('Code more JavaScript')
     project1.isUrgent = true
-    const project2 = new Todo('Code even more JavaScript', '07/03/2024')
-    project1.todos.push(new SubTodo('beer'))
-    project2.todos.push(new SubTodo('exercise'))
+
+    const todo1 = new Todo('To-do app', '07/03/2024');
+    todo1.todos.push(new SubTodo('Get this done finally'));
+    project1.projectTodos.push(todo1);
+
+
+
     addProject(project1)
-    addProject(project2)
+
 }
 
 
 
 
 
-export { addProject, removeTodo, getTodos, _newTodo, _defaultProjects, _findIndex, updateTodo, _grabTodoId, getCurrentTodo, setCurrentTodo, _getUpdatedTodoFromInputs, _checkModalTodoAsComplete, _newSubTodo, getSubTodos, _newProject }
+export {
+    addProject,
+    removeTodo,
+    getTodos,
+    _newTodo,
+    _defaultProjects,
+    _findIndex,
+    updateTodo,
+    _grabTodoId,
+    getCurrentTodo,
+    setCurrentTodo,
+    _getUpdatedTodoFromInputs,
+    _checkModalTodoAsComplete,
+    _newSubTodo,
+    getSubTodos,
+    _newProject,
+    setCurrentProject,
+    getCurrentProject
+}

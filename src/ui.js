@@ -10,7 +10,9 @@ import {
     _getUpdatedTodoFromInputs,
     _checkModalTodoAsComplete,
     _newSubTodo,
-    getSubTodos
+    getSubTodos,
+    getCurrentProject,
+    setCurrentProject
 } from "./state";
 import { SubTodo } from "./Todo";
 import { TODO_CONTAINER, MODAL } from "./constants";
@@ -49,29 +51,42 @@ function _displayTodo(todo) {
 
 
 function _renderProjectNamesToDOM() {
-    console.log('working')
+    const addCardButton = document.getElementById('add-todo-card')
+    const renderedButton = document.querySelector('.project-button')
+
+
     const projects = getTodos()
     const projectNamesDiv = document.getElementById('project-names')
 
-    console.log(projects)
+    if (getCurrentProject) {
+        addCardButton.classList.remove('hidden')
+    } else
+        addCardButton.classList.add('hidden')
+
 
     projectNamesDiv.innerHTML = ''
 
-    projects.forEach((project) => {
+    projects.forEach((project, index) => {
         const button = document.createElement('button')
-
 
         button.classList.add('project-button', 'text-xl')
 
         button.setAttribute('data-id', project.id)
+        button.setAttribute('data-index', index)
         button.innerHTML = `${project.name}`
-        button.addEventListener('click', handleButtonClick);
+        button.addEventListener('click', handleAddProjectButtonClick);
+
+        // Add active class to newly added project
+        if (index === projects.length - 1) {
+            button.classList.add('active-button')
+        }
+
         projectNamesDiv.append(button)
     })
 }
 
 
-function handleButtonClick(event) {
+function handleAddProjectButtonClick(event) {
     // Remove 'active-button' class from all buttons
     const buttons = document.querySelectorAll('#project-names button');
     buttons.forEach(button => button.classList.remove('active-button'));
@@ -113,6 +128,8 @@ function _findTodo(e) {
 
     return todo
 }
+
+
 
 
 function _showAndPopulateModal(e) {
@@ -282,7 +299,7 @@ function _addItemToModaList(e) {
         todo.todos.push(newSubTodo)
 
         listItem.setAttribute('data-id', newSubTodo.id)
-        console.log(listItem)
+
         listItem.innerHTML = `${itemText} <button id="removeListItemFromModal" class="text-gray-400 hover:text-gray-600"><span class="fa fa-times"></span></button>`
         listItem.classList.add('list-item', 'flex', 'justify-between')
         listItem.style.color = 'green'
@@ -307,7 +324,12 @@ function _renderTodosToDOM() {
     _checkTodoUrgency()
 }
 
-
+function _projectBtnIndex(e) {
+    const btn = e.target.closest('.project-button')
+    const index = btn.getAttribute('data-index')
+    console.log(index)
+    return index
+}
 
 function _handleClick(e) {
     if (e.target.classList.contains('delete')) {
@@ -317,6 +339,17 @@ function _handleClick(e) {
         _showAndPopulateModal(e);
         const todo = _findTodo(e)
         setCurrentTodo(todo)
+    } else if (e.target.closest('.project-button')) {
+        const index = _projectBtnIndex(e);
+        const addCardButton = document.getElementById('add-todo-card')
+        if (index !== null) {
+            const todos = getTodos(); // Ensure getTodos() is defined and returns the list of todos
+            setCurrentProject(todos[index]);
+            console.log(getCurrentProject());
+        }
+
+        addCardButton.classList.remove('hidden')
+
     }
 }
 
