@@ -3,7 +3,7 @@ import { _handleClick, _renderTodosToDOM, _closeModal, _closeModalEscKey, _handl
 
 
 function setEventListeners() {
-    document.getElementById('add-todo').addEventListener('click', _newProject, _renderProjectNamesToDOM)
+    document.getElementById('add-todo').addEventListener('click', _newProject, _renderProjectNamesToDOM, _renderTodosToDOM)
     document.getElementById('add-todo-card').addEventListener('click', _newTodo)
     document.getElementById('project-cards').addEventListener('click', _handleClick)
     document.getElementById('project-names').addEventListener('click', _handleClick)
@@ -14,7 +14,7 @@ function setEventListeners() {
     document.addEventListener('mouseup', _handleMouseUp);
     document.querySelector('.modal').addEventListener('click', _handleModalClick)
     // _defaultProjects()
-    _renderTodosToDOM()
+    // _renderTodosToDOM()
 }
 
 export default setEventListeners

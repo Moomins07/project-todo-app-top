@@ -157,7 +157,7 @@ function _newTodo(e) {
     e.preventDefault();
     const todo = new Todo(projectText, projectDate)
     addTodo(todo)
-    // _renderTodosToDOM()
+    _renderTodosToDOM()
     console.log(getCurrentProject())
 
 }

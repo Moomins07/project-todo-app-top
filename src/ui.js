@@ -83,6 +83,8 @@ function _renderProjectNamesToDOM() {
 
         projectNamesDiv.append(button)
     })
+
+    _renderTodosToDOM()
 }
 
 
@@ -125,8 +127,8 @@ function _checkTodoUrgency(todo = null) {
 
 function _findTodo(e) {
     const todoId = _grabTodoId(e); // Extract the todo ID directly from the event
-    const todos = getTodos(); // Get the current todos array
-    const todo = todos.find(todo => todo.id === todoId); // Use .find() to get the todo object
+    const projectTodo = getCurrentProject().projectTodos; // Get the current todos array
+    const todo = projectTodo.find(todo => todo.id === todoId); // Use .find() to get the todo object
 
     return todo
 }
@@ -318,18 +320,25 @@ function _addItemToModaList(e) {
 
 function _renderTodosToDOM() {
     TODO_CONTAINER.innerHTML = ''; // Clear the container here, before the loop
-    getTodos().forEach((todo) => {
-        _displayTodo(todo)
-        _renderTodoList(todo)
-    })
 
-    _checkTodoUrgency()
+    if (getCurrentProject()) {
+
+        const currentProjectTodos = getCurrentProject().projectTodos
+        console.log(currentProjectTodos)
+
+        currentProjectTodos.forEach((todo) => {
+            _displayTodo(todo)
+            _renderTodoList(todo)
+        })
+
+        // _checkTodoUrgency()
+    }
 }
 
 function _projectBtnIndex(e) {
     const btn = e.target.closest('.project-button')
     const index = btn.getAttribute('data-index')
-    console.log(index)
+
     return index
 }
 
@@ -340,6 +349,7 @@ function _handleClick(e) {
         e.stopPropagation()
         _showAndPopulateModal(e);
         const todo = _findTodo(e)
+        console.log(todo)
         setCurrentTodo(todo)
     } else if (e.target.closest('.project-button')) {
         const index = _projectBtnIndex(e);
@@ -347,7 +357,7 @@ function _handleClick(e) {
         if (index !== null) {
             const todos = getTodos(); // Ensure getTodos() is defined and returns the list of todos
             setCurrentProject(todos[index]);
-            console.log(getCurrentProject());
+            _renderTodosToDOM()
         }
 
         addCardButton.classList.remove('hidden')
