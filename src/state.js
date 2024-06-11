@@ -27,6 +27,11 @@ function addProject(todo) {
     todos.push(todo)
 }
 
+function addTodo(todo) {
+    const currentProject = getCurrentProject()
+    currentProject.projectTodos.push(todo)
+}
+
 function _findIndex(id) {
     const index = todos.findIndex((todo) => todo.id === id);
 
@@ -126,6 +131,7 @@ function _newProject(e) {
 
 
 
+
     e.preventDefault()
 
     // if (projectText === '' || projectDate === '') {
@@ -137,6 +143,9 @@ function _newProject(e) {
     _renderProjectNamesToDOM(e)
     // console.log(`Current Project:`, getCurrentProject())
     // }
+
+    console.log(getCurrentProject())
+
     projectName.innerHTML = ''
 }
 
@@ -145,15 +154,12 @@ function _newTodo(e) {
     const projectText = document.getElementById('project').value
     const projectDate = document.getElementById('project-date').value
 
-    // if (projectText === '' || projectDate === '') {
-    //     alert('Please fill in both fields!')
-    // } else {
     e.preventDefault();
     const todo = new Todo(projectText, projectDate)
-    addProject(todo)
-    _renderTodosToDOM()
-    // console.log(todos[2].todos)
-    // }
+    addTodo(todo)
+    // _renderTodosToDOM()
+    console.log(getCurrentProject())
+
 }
 
 function _newSubTodo(todo) {

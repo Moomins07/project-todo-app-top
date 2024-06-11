@@ -95,6 +95,8 @@ function handleAddProjectButtonClick(event) {
     event.target.classList.add('active-button');
 }
 
+
+
 function _checkTodoUrgency(todo = null) {
     const todos = todo ? [todo] : getTodos();
     // If 'todo' is provided, 'todos' will be an array containing only that single 'todo'.
