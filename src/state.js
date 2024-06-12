@@ -33,20 +33,25 @@ function addTodo(todo) {
 }
 
 function _findIndex(id) {
-    const index = todos.findIndex((todo) => todo.id === id);
-
-    if (index !== -1) {
-        return { isMainTodo: true, index };
-    }
-
+    // Find main todo by iterating through each project and its projectTodos
     for (let i = 0; i < todos.length; i++) {
-        const subTodoIndex = todos[i].todos.findIndex((subTodo) => subTodo.id === id);
-        if (subTodoIndex !== -1) {
-            return { isMainTodo: false, parentIndex: i, subIndex: subTodoIndex };
+        const projectIndex = todos[i].projectTodos.findIndex((projectTodo) => projectTodo.id === id);
+        if (projectIndex !== -1) {
+            return { isMainTodo: true, index: i, projectIndex };
         }
     }
 
-    return { isMainTodo: false, index: -1 };
+    // Find sub-todo by iterating through each project's projectTodos and their todos
+    for (let i = 0; i < todos.length; i++) {
+        for (let j = 0; j < todos[i].projectTodos.length; j++) {
+            const subTodoIndex = todos[i].projectTodos[j].todos.findIndex((subTodo) => subTodo.id === id);
+            if (subTodoIndex !== -1) {
+                return { isMainTodo: false, parentIndex: i, projectIndex: j, subIndex: subTodoIndex };
+            }
+        }
+    }
+
+    return { isMainTodo: false, index: -1 }; // If none above, no todo so return -1
 }
 
 
@@ -59,16 +64,18 @@ function _grabTodoId(e) {
 }
 
 function removeTodo(id) {
-    const { isMainTodo, index, parentIndex, subIndex } = _findIndex(id);
+    const { isMainTodo, index, projectIndex, parentIndex, subIndex } = _findIndex(id);
 
     if (isMainTodo && index !== -1 && !id.includes('SUBTODO')) {
-        todos.splice(index, 1);
+        todos[index].projectTodos.splice(projectIndex, 1);
     } else if (!isMainTodo && subIndex !== -1) {
-        todos[parentIndex].todos.splice(subIndex, 1)
+        todos[parentIndex].projectTodos[projectIndex].todos.splice(subIndex, 1);
 
-        if (todos[parentIndex].todos[subIndex]) {
-            console.log('found the subtodo')
-        } else console.log('subtodo removed')
+        if (todos[parentIndex].projectTodos[projectIndex].todos[subIndex]) {
+            console.log('found the subtodo');
+        } else {
+            console.log('subtodo removed');
+        }
     }
 }
 
@@ -155,7 +162,7 @@ function _newTodo(e) {
     const projectDate = document.getElementById('project-date').value
 
     e.preventDefault();
-    const todo = new Todo(projectText, projectDate)
+    const todo = new Todo(projectDate)
     addTodo(todo)
     _renderTodosToDOM()
     // console.log(getCurrentProject())
@@ -173,7 +180,9 @@ function _newSubTodo(todo) {
 
 function _defaultProjects() {
 
+
     const project1 = new Project('Code more JavaScript')
+    setCurrentProject(project1)
 
     const todo1 = new Todo('To-do app', '07/03/2024');
     todo1.isUrgent = true
@@ -183,6 +192,8 @@ function _defaultProjects() {
 
 
     addProject(project1)
+
+    console.log(getCurrentProject())
 
 
 

@@ -74,3 +74,8 @@ li,
 button {
   user-select: none;
 }
+
+#checklistItems > li {
+  display: flex;
+  justify-content: space-between;
+}

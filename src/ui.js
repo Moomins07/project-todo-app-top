@@ -101,7 +101,7 @@ function handleAddProjectButtonClick(event) {
 
 function _checkTodoUrgency() {
     const currentProject = getCurrentProject()
-    console.log(currentProject)
+
     currentProject.projectTodos.forEach((todo) => {
 
         const card = document.querySelector(`.project-card[data-id="${todo.id}"]`);
@@ -174,7 +174,7 @@ function _populateModalTodoList(todo) {
 
 
             if (item.done) {
-                li.classList.add('line-through');
+                li.classList.add('line-through', 'opacity-50');
             }
 
             modalTodoList.appendChild(li); // Append the new <li> to the modal list
@@ -272,13 +272,14 @@ function _tickModalTodoAsComplete(e = null, todo = null) {
     if (todoItem.done) {
         // Handle the event case
         if (e && e.target) {
-            e.target.classList.add('line-through');
+            e.target.classList.add('line-through', 'opacity-50');
+
             // console.log(todoItem)
         }
     } else {
         // Handle the event case
         if (e && e.target) {
-            e.target.classList.remove('line-through');
+            e.target.classList.remove('line-through', 'opacity-50');
             // console.log(todoItem)
 
         }
@@ -419,6 +420,7 @@ function _renderTodoList(todo) {
         if (item) {
             if (item.done) {
                 li.classList.add('line-through');
+                li.classList.add('opacity-50')
             }
 
         }
