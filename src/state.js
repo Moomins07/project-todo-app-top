@@ -141,15 +141,17 @@ function _newProject(e) {
 
     e.preventDefault()
 
-    // if (projectText === '' || projectDate === '') {
-    //     alert('Please fill in both fields!')
-    // } else {
-    const project = new Project(projectText)
-    addProject(project)
-    setCurrentProject(project)
-    _renderProjectNamesToDOM(e)
+    if (projectText === '' || projectDate === '') {
+        alert('Please fill in both fields!')
+    } else {
+        const project = new Project(projectText, projectDate)
+        addProject(project)
+        setCurrentProject(project)
+        _renderProjectNamesToDOM(e)
+        projectName.value = ''
+    }
     // console.log(`Current Project:`, getCurrentProject())
-    // }
+
 
     // console.log(getCurrentProject())
 
@@ -181,10 +183,11 @@ function _newSubTodo(todo) {
 function _defaultProjects() {
 
 
-    const project1 = new Project('Code more JavaScript')
+    const project1 = new Project('Code more JavaScript', '12/06/2024')
     setCurrentProject(project1)
-
-    const todo1 = new Todo('To-do app', '07/03/2024');
+    const d = new Date()
+    const date = d.getDate()
+    const todo1 = new Todo(date);
     todo1.isUrgent = true
     todo1.todos.push(new SubTodo('Get this done finally'));
     project1.projectTodos.push(todo1);

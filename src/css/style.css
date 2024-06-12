@@ -31,6 +31,8 @@
   transition: transform 0.3s ease-in-out; /* Define the property and duration */
   border-radius: 0.2rem;
   padding: 0.2rem 0.5rem;
+  min-height: 80px;
+  height: 100%;
 }
 
 .project-button:hover {
@@ -58,6 +60,20 @@
   white-space: normal; */
 }
 
+.truncate-button {
+  display: -webkit-box !important; /* Display as a WebKit box */
+  -webkit-box-orient: vertical !important; /* Vertical orientation */
+  -webkit-line-clamp: 1 !important; /* Limit to 2 lines */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Ellipsis for overflow text */
+  white-space: normal; /* Allow wrapping */
+  width: 200px; /* Set a fixed width */
+  padding: 10px; /* Optional padding */
+  border-radius: 5px; /* Optional border radius */
+  cursor: pointer; /* Pointer cursor for button */
+  word-wrap: break-word; /* Ensure words break properly */
+}
+
 #checklistItems > li {
   cursor: pointer !important;
 }
@@ -78,4 +94,8 @@ button {
 #checklistItems > li {
   display: flex;
   justify-content: space-between;
+}
+
+.project-date {
+  font-size: 12px;
 }

@@ -16,11 +16,13 @@ import {
 } from "./state";
 import { SubTodo } from "./Todo";
 import { TODO_CONTAINER, MODAL } from "./constants";
+import formatDate from "./utils";
 
 let mouseDownOutside = false;
 
 
 function _displayTodo(todo) {
+    console.log(todo)
     const div = document.createElement('div')
     const todoList = document.createElement('div')
     const ul = document.createElement('ul')
@@ -67,9 +69,15 @@ function _renderProjectNamesToDOM() {
     projectNamesDiv.innerHTML = ''
 
     projects.forEach((project, index) => {
+        const div = document.createElement('div')
+        const h6 = document.createElement('h6')
         const button = document.createElement('button')
+        const hr = document.createElement('hr')
 
-        button.classList.add('project-button', 'text-xl')
+        h6.classList.add('project-date', 'pl-2')
+        h6.innerHTML = formatDate(project.date)
+        div.classList.add('mb-5')
+        button.classList.add('project-button', 'text-xl', 'todo-list', 'truncate-button')
 
         button.setAttribute('data-id', project.id)
         button.setAttribute('data-index', index)
@@ -81,7 +89,13 @@ function _renderProjectNamesToDOM() {
             button.classList.add('active-button')
         }
 
-        projectNamesDiv.append(button)
+
+
+        projectNamesDiv.append(div)
+        div.append(h6)
+        div.append(button)
+        div.insertAdjacentElement('afterend', hr);
+
     })
 
     _renderTodosToDOM()
@@ -419,8 +433,7 @@ function _renderTodoList(todo) {
 
         if (item) {
             if (item.done) {
-                li.classList.add('line-through');
-                li.classList.add('opacity-50')
+                li.classList.add('line-through', 'opacity-50');
             }
 
         }
