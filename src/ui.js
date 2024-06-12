@@ -99,28 +99,30 @@ function handleAddProjectButtonClick(event) {
 
 
 
-function _checkTodoUrgency(todo = null) {
-    const todos = todo ? [todo] : getTodos();
-    // If 'todo' is provided, 'todos' will be an array containing only that single 'todo'.
-    // If 'todo' is not provided, 'todos' will be the array of all todos returned by 'getTodos()'.
-    todos.forEach((t) => {
-        const card = document.querySelector(`.project-card[data-id="${t.id}"]`);
+function _checkTodoUrgency() {
+    const currentProject = getCurrentProject()
+    console.log(currentProject)
+    currentProject.projectTodos.forEach((todo) => {
+
+        const card = document.querySelector(`.project-card[data-id="${todo.id}"]`);
         const checkbox = document.getElementById('checkboxUrgent');
 
         if (card) {
-            if (t.isUrgent) {
+            if (todo.isUrgent) {
                 card.classList.add('border-l-8');
-                if (todo) checkbox.checked = true;
 
+                if (todo) checkbox.checked = true;
             } else {
                 card.classList.remove('border-l-8');
                 if (todo) checkbox.checked = false;
             }
         } else {
-            console.log(`Card not found for todo with id: ${t.id}`);
+            console.log(`Card not found for todo with id: ${todo.id}`);
         }
+
     });
 }
+
 
 
 
@@ -140,6 +142,7 @@ function _showAndPopulateModal(e) {
     MODAL.classList.remove('hidden');
 
     const todo = _findTodo(e)
+
     if (todo) {
         _checkTodoUrgency(todo)
         _populateModal(todo);
@@ -243,6 +246,7 @@ function _handleModalClick(e) {
         // _updateTodoList(e)
         _updateTodoInputs(e)
         _checkTodoUrgency()
+        _renderTodosToDOM()
     } else if (e.target.closest('#removeListItemFromModal')) {
         e.stopPropagation()
         e.preventDefault()
@@ -324,14 +328,13 @@ function _renderTodosToDOM() {
     if (getCurrentProject()) {
 
         const currentProjectTodos = getCurrentProject().projectTodos
-        console.log(currentProjectTodos)
 
         currentProjectTodos.forEach((todo) => {
             _displayTodo(todo)
             _renderTodoList(todo)
         })
 
-        // _checkTodoUrgency()
+        _checkTodoUrgency()
     }
 }
 
@@ -349,7 +352,7 @@ function _handleClick(e) {
         e.stopPropagation()
         _showAndPopulateModal(e);
         const todo = _findTodo(e)
-        console.log(todo)
+
         setCurrentTodo(todo)
     } else if (e.target.closest('.project-button')) {
         const index = _projectBtnIndex(e);

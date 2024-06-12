@@ -13,8 +13,9 @@ function setEventListeners() {
     document.addEventListener('mousedown', _handleMouseDown);
     document.addEventListener('mouseup', _handleMouseUp);
     document.querySelector('.modal').addEventListener('click', _handleModalClick)
-    // _defaultProjects()
-    // _renderTodosToDOM()
+    _defaultProjects()
+    _renderProjectNamesToDOM()
+    _renderTodosToDOM()
 }
 
 export default setEventListeners

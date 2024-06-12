@@ -144,7 +144,7 @@ function _newProject(e) {
     // console.log(`Current Project:`, getCurrentProject())
     // }
 
-    console.log(getCurrentProject())
+    // console.log(getCurrentProject())
 
     projectName.innerHTML = ''
 }
@@ -158,7 +158,7 @@ function _newTodo(e) {
     const todo = new Todo(projectText, projectDate)
     addTodo(todo)
     _renderTodosToDOM()
-    console.log(getCurrentProject())
+    // console.log(getCurrentProject())
 
 }
 
@@ -174,15 +174,17 @@ function _newSubTodo(todo) {
 function _defaultProjects() {
 
     const project1 = new Project('Code more JavaScript')
-    project1.isUrgent = true
 
     const todo1 = new Todo('To-do app', '07/03/2024');
+    todo1.isUrgent = true
     todo1.todos.push(new SubTodo('Get this done finally'));
     project1.projectTodos.push(todo1);
 
 
 
     addProject(project1)
+
+
 
 }
 
