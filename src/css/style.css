@@ -28,7 +28,7 @@
 }
 
 .project-button {
-  @apply transition-all px-2 py-1 max-h-9 hover:max-h-96 overflow-hidden cursor-pointer w-48;
+  @apply transition-all px-2 py-1 max-h-9 hover:max-h-96 overflow-hidden cursor-pointer w-48 border rounded;
   white-space: nowrap; /* Prevent text wrapping */
   text-overflow: ellipsis; /* Show ellipsis for overflowing text */
   overflow: hidden; /* Hide overflowing text */
