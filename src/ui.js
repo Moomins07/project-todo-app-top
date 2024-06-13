@@ -77,7 +77,7 @@ function _renderProjectNamesToDOM() {
         h6.classList.add('project-date', 'pl-2')
         h6.innerHTML = formatDate(project.date)
         div.classList.add('mb-5')
-        button.classList.add('project-button', 'text-xl', 'todo-list', 'truncate-button')
+        button.classList.add('project-button', 'text-xl')
 
         button.setAttribute('data-id', project.id)
         button.setAttribute('data-index', index)

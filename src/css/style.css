@@ -28,11 +28,19 @@
 }
 
 .project-button {
-  transition: transform 0.3s ease-in-out; /* Define the property and duration */
-  border-radius: 0.2rem;
-  padding: 0.2rem 0.5rem;
-  min-height: 80px;
-  height: 100%;
+  @apply transition-all px-2 py-1 max-h-9 hover:max-h-96 overflow-hidden cursor-pointer w-48;
+  white-space: nowrap; /* Prevent text wrapping */
+  text-overflow: ellipsis; /* Show ellipsis for overflowing text */
+  overflow: hidden; /* Hide overflowing text */
+  max-height: 3rem; /* Initial height to show truncated text */
+  display: block; /* Ensures the button behaves correctly with height changes */
+}
+
+.project-button:hover {
+  @apply overflow-visible; /* Show overflow on hover */
+  max-height: 10rem;
+  transition: max-height 0.1s ease-in-out;
+  white-space: normal; /* Allow text to wrap */
 }
 
 .project-button:hover {
@@ -58,20 +66,6 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   white-space: normal; */
-}
-
-.truncate-button {
-  display: -webkit-box !important; /* Display as a WebKit box */
-  -webkit-box-orient: vertical !important; /* Vertical orientation */
-  -webkit-line-clamp: 1 !important; /* Limit to 2 lines */
-  overflow: hidden; /* Hide overflow */
-  text-overflow: ellipsis; /* Ellipsis for overflow text */
-  white-space: normal; /* Allow wrapping */
-  width: 200px; /* Set a fixed width */
-  padding: 10px; /* Optional padding */
-  border-radius: 5px; /* Optional border radius */
-  cursor: pointer; /* Pointer cursor for button */
-  word-wrap: break-word; /* Ensure words break properly */
 }
 
 #checklistItems > li {
