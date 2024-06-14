@@ -113,28 +113,29 @@ function handleAddProjectButtonClick(event) {
 
 
 
-function _checkTodoUrgency() {
-    const currentProject = getCurrentProject()
+function _checkTodoUrgency(todo) {
+    const currentProject = getCurrentProject();
 
-    currentProject.projectTodos.forEach((todo) => {
 
-        const card = document.querySelector(`.project-card[data-id="${todo.id}"]`);
-        const checkbox = document.getElementById('checkboxUrgent');
 
-        if (card) {
-            if (todo.isUrgent) {
-                card.classList.add('border-l-8');
 
-                if (todo) checkbox.checked = true;
-            } else {
-                card.classList.remove('border-l-8');
-                if (todo) checkbox.checked = false;
-            }
+    const card = document.querySelector(`.project-card[data-id="${todo.id}"]`);
+    const checkbox = document.getElementById('checkboxUrgent');
+
+    if (card) {
+        if (todo.isUrgent) {
+            card.classList.add('border-l-8');
+
+            if (todo) checkbox.checked = true;
         } else {
-            console.log(`Card not found for todo with id: ${todo.id}`);
+            card.classList.remove('border-l-8');
+            if (todo) checkbox.checked = false;
         }
+    } else {
+        console.log(`Card not found for todo with id: ${todo.id}`);
+    }
 
-    });
+
 }
 
 
@@ -257,7 +258,6 @@ function _handleModalClick(e) {
     } else if (e.target.classList.contains('modalUpdate')) {
         e.stopPropagation()
         e.preventDefault()
-        // _updateTodoList(e)
         _updateTodoInputs(e)
         _checkTodoUrgency()
         _renderTodosToDOM()
@@ -347,9 +347,10 @@ function _renderTodosToDOM() {
         currentProjectTodos.forEach((todo) => {
             _displayTodo(todo)
             _renderTodoList(todo)
+            _checkTodoUrgency(todo)
+
         })
 
-        _checkTodoUrgency()
     }
 }
 
