@@ -104,6 +104,7 @@ function _getUpdatedTodoFromInputs() {
     const modalProjectUrgentCheckbox = document.getElementById('checkboxUrgent');
 
     const todo = getCurrentTodo();
+    console.log(todo)
 
     todo.isUrgent = modalProjectUrgentCheckbox.checked;
     todo.project = modalProjectTitle.value;
@@ -196,7 +197,7 @@ function _defaultProjects() {
 
     addProject(project1)
 
-    console.log(getCurrentProject())
+
 
 
 

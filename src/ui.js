@@ -22,7 +22,7 @@ let mouseDownOutside = false;
 
 
 function _displayTodo(todo) {
-    console.log(todo)
+
     const div = document.createElement('div')
     const todoList = document.createElement('div')
     const ul = document.createElement('ul')
@@ -424,6 +424,12 @@ function _renderTodoList(todo) {
 
     ul.innerHTML = ''; // Clear the existing list items
 
+    if (todo.todos.length > 0) {
+        todo.todos.every(todo => todo.done)
+            ? projectCard.classList.add('opacity-30')
+            : projectCard.classList.remove('opacity-30');
+    }
+
 
     // Populate the <ul> with todo items
     todo.todos.forEach((item) => {
@@ -431,11 +437,8 @@ function _renderTodoList(todo) {
         const todosId = item.id
 
 
-        if (item) {
-            if (item.done) {
-                li.classList.add('line-through', 'opacity-50');
-            }
-
+        if (item && item.done) {
+            li.classList.add('line-through', 'opacity-50');
         }
 
         li.setAttribute('data-id', todosId)
