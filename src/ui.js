@@ -115,25 +115,29 @@ function handleAddProjectButtonClick(event) {
 
 function _checkTodoUrgency(todo) {
     const currentProject = getCurrentProject();
+    let projectTodos = todo ? [todo] : currentProject.projectTodos
+
+    /* I realised here that I still needed a parameter to account for single selected todos, not just looping through all todos and checking urgency when they're rendered. I know that if a todo is passed in, it will be a single todo, so I figured that I could check for a todo, and if there is one, just make it a single array so that forEach will still work on it. Essentially, forEach now works on both single todos and arrays of todos to perform the same checks!*/
 
 
+    projectTodos.forEach((todo) => {
 
+        const card = document.querySelector(`.project-card[data-id="${todo.id}"]`);
+        const checkbox = document.getElementById('checkboxUrgent');
 
-    const card = document.querySelector(`.project-card[data-id="${todo.id}"]`);
-    const checkbox = document.getElementById('checkboxUrgent');
+        if (card) {
+            if (todo.isUrgent) {
+                card.classList.add('border-l-8');
 
-    if (card) {
-        if (todo.isUrgent) {
-            card.classList.add('border-l-8');
-
-            if (todo) checkbox.checked = true;
+                if (todo) checkbox.checked = true;
+            } else {
+                card.classList.remove('border-l-8');
+                if (todo) checkbox.checked = false;
+            }
         } else {
-            card.classList.remove('border-l-8');
-            if (todo) checkbox.checked = false;
+            console.log(`Card not found for todo with id: ${todo.id}`);
         }
-    } else {
-        console.log(`Card not found for todo with id: ${todo.id}`);
-    }
+    })
 
 
 }
