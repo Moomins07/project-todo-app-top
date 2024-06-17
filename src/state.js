@@ -30,7 +30,10 @@ function addProject(todo) {
 
 function addTodo(todo) {
     const currentProject = getCurrentProject()
-    currentProject.projectTodos.push(todo)
+    if (currentProject) {
+        currentProject.projectTodos.push(todo)
+
+    } else console.log('no current project')
 }
 
 function _findIndex(id) {
