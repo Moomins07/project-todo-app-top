@@ -1,5 +1,20 @@
-import { _newTodo, _defaultProjects, _newProject } from "./state"
-import { _handleClick, _renderTodosToDOM, _closeModal, _closeModalEscKey, _handleModalClick, _handleMouseDown, _handleMouseUp, _renderTodoList, _renderProjectNamesToDOM } from "./ui"
+import {
+    _newTodo,
+    _defaultProjects,
+    _newProject
+} from "./state"
+import {
+    _handleClick,
+    _renderTodosToDOM,
+    _closeModal,
+    _closeModalEscKey,
+    _handleModalClick,
+    _handleMouseDown,
+    _handleMouseUp,
+    _renderTodoList,
+    _renderProjectNamesToDOM
+} from "./ui"
+import { localStorageSetItem } from "./localStorage"
 
 
 function setEventListeners() {

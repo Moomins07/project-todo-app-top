@@ -1,6 +1,7 @@
 import { Todo, SubTodo, Project } from "./Todo"
 import { _renderTodosToDOM, _displayTodo, _removeTodo, _renderProjectNamesToDOM } from "./ui";
 import formatDate from "./utils";
+import { localStorageSetItem } from "./localStorage";
 
 
 const todos = []
@@ -224,5 +225,6 @@ export {
     getSubTodos,
     _newProject,
     setCurrentProject,
-    getCurrentProject
+    getCurrentProject,
+    todos
 }

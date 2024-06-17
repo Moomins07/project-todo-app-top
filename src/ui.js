@@ -12,7 +12,8 @@ import {
     _newSubTodo,
     getSubTodos,
     getCurrentProject,
-    setCurrentProject
+    setCurrentProject,
+    todos
 } from "./state";
 import { SubTodo } from "./Todo";
 import { TODO_CONTAINER, MODAL } from "./constants";
@@ -73,10 +74,11 @@ function _renderProjectNamesToDOM() {
         const h6 = document.createElement('h6')
         const button = document.createElement('button')
         const hr = document.createElement('hr')
+        const deleteButtonInnerHTML = `<i class="fa-lg fa-regular fa-circle-xmark delete-project sm:absolute left-44"></i>`
 
         h6.classList.add('project-date', 'pl-2')
         h6.innerHTML = formatDate(project.date)
-        div.classList.add('mb-5')
+        div.classList.add('mb-5', 'relative')
         button.classList.add('project-button', 'text-xl')
 
         button.setAttribute('data-id', project.id)
@@ -92,6 +94,7 @@ function _renderProjectNamesToDOM() {
 
 
         projectNamesDiv.append(div)
+        div.innerHTML = deleteButtonInnerHTML
         div.append(h6)
         div.append(button)
         div.insertAdjacentElement('afterend', hr);
@@ -368,11 +371,28 @@ function _projectBtnIndex(e) {
 function _handleClick(e) {
     if (e.target.classList.contains('delete')) {
         _removeTodo(e)
+
+    } else if (e.target.classList.contains('delete-project')) {
+        e.stopPropagation()
+        const container = e.target.closest('.mb-5.relative');
+        const projectBtn = container.querySelector('.project-button')
+        const currentIndex = projectBtn.getAttribute('data-index')
+
+
+
+        if (confirm('Are you sure you want to delete this project?')) {
+            todos.splice(currentIndex, 1)
+            // setCurrentProject(todos[currentIndex])
+            setCurrentProject(null)
+            _renderProjectNamesToDOM()
+            handleAddProjectButtonClick(e)
+            _renderTodosToDOM()
+        }
+
     } else if (e.target.closest('.project-card')) {
         e.stopPropagation()
         _showAndPopulateModal(e);
         const todo = _findTodo(e)
-
         setCurrentTodo(todo)
     } else if (e.target.closest('.project-button')) {
         const index = _projectBtnIndex(e);
