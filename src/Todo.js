@@ -1,6 +1,6 @@
 import formatDate from "./utils"
 
-function Todo(date) {
+function Todo(date = null) {
     this.project = typeof project === 'string' ? project : project.value; // Ensure it is a string
     this.date = formatDate(date)
     this.id = Math.random().toString(16).slice(2)
@@ -8,7 +8,6 @@ function Todo(date) {
     this.isUrgent = null
     this.description = null
     this.todos = []
-    console.log(`Created Todo: Project=${this.project}, Date=${this.date}, ID=${this.id}`); // Debug log
 }
 
 function SubTodo(name) {

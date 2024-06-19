@@ -1,7 +1,12 @@
 import { Todo, SubTodo, Project } from "./Todo"
 import { _renderTodosToDOM, _displayTodo, _removeTodo, _renderProjectNamesToDOM } from "./ui";
 import formatDate from "./utils";
-import { localStorageSetItem } from "./localStorage";
+import {
+    localStorageSetItem,
+    localStorageKeyExists,
+    addProjectToLocalStorage,
+    addTodoToLocalStorage
+} from "./localStorage";
 
 
 const todos = []
@@ -26,12 +31,14 @@ function setCurrentProject(project) {
 
 function addProject(todo) {
     todos.push(todo)
+    addProjectToLocalStorage(todo)
 }
 
 function addTodo(todo) {
     const currentProject = getCurrentProject()
     if (currentProject) {
-        currentProject.projectTodos.push(todo)
+        currentProject.projectTodos.push(new Todo())
+        addTodoToLocalStorage(new Todo())
 
     } else console.log('no current project')
 }

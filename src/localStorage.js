@@ -1,5 +1,12 @@
 // Handy function from mozilla docs that checks if localStorage is available
-import { todos } from "./state";
+import { Todo } from "./Todo";
+import {
+    getCurrentProject,
+    todos
+} from "./state";
+
+
+
 
 function storageAvailable(type) {
     let storage;
@@ -35,6 +42,7 @@ function storageAvailable(type) {
 'Too bad, no localStorage for us'
 } */
 
+
 function localStorageSetItem(name, item) {
     try {
         if (storageAvailable('localStorage')) {
@@ -51,8 +59,72 @@ function localStorageSetItemsOnDOMLoaded() {
     localStorageSetItem('todos', todos)
 }
 
+function localStorageKeyExists(key) {
+    return localStorage.getItem(key) !== null;
+}
+
+function checkAndReturnLocalStorageTodos(itemName) {
+    let todos = localStorage.getItem(itemName);
+
+    // Check if the todos array exists
+    if (todos) {
+        // Parse the JSON string into a JavaScript array
+        todos = JSON.parse(todos);
+    } else {
+        // If no todos array exists, initialize it as an empty array
+        todos = [];
+    }
+
+    return todos
+}
+
+function addProjectToLocalStorage(newProject) {
+    // Retrieve the existing todos array from localStorage
+
+    let todos = checkAndReturnLocalStorageTodos('todos')
+
+    // Add the new project to the array
+    todos.push(newProject);
+
+    // Convert the array back into a JSON string
+    const updatedTodos = JSON.stringify(todos);
+
+    // Save the updated JSON string back to localStorage
+    localStorage.setItem('todos', updatedTodos);
+}
+
+function addTodoToLocalStorage(newTodo) {
+
+    const currentProject = getCurrentProject()
+
+    let todos = checkAndReturnLocalStorageTodos('todos')
+    console.log(currentProject.name)
+
+    const project = todos.find(({ name }) => name === currentProject.name);
+
+
+    if (project) {
+        console.log('Project found:', project);
+        // Add the newTodo to the project's todos array
+        if (!project.projectTodos) {
+            project.projectTodos = [];
+        }
+        project.projectTodos.push(newTodo);
+
+        // Save the updated todos array back to localStorage
+        localStorage.setItem('todos', JSON.stringify(todos));
+    } else {
+        console.log('Project not found');
+    }
+
+}
+
+
 export {
     localStorageSetItem,
     storageAvailable,
-    localStorageSetItemsOnDOMLoaded
+    localStorageSetItemsOnDOMLoaded,
+    localStorageKeyExists,
+    addProjectToLocalStorage,
+    addTodoToLocalStorage
 }
