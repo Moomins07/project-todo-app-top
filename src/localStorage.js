@@ -113,7 +113,8 @@ function addTodoToLocalStorage(newTodo) {
         project.projectTodos.push(newTodo);
 
         // Save the updated todos array back to localStorage
-        localStorage.setItem('todos', JSON.stringify(todos));
+        saveTodos(todos)
+
     } else {
         console.log('Project not found');
     }
@@ -149,8 +150,47 @@ function addSubTodoToLocalStorage(currentTodo, newSubTodo) {
     const subTodoArray = todo.todos || [];
     subTodoArray.push(newSubTodo);
 
-    console.log('After adding new sub-todo:', JSON.stringify(todos, null, 2));
+    // console.log('After adding new sub-todo:', JSON.stringify(todos, null, 2));
 
+    saveTodos(todos)
+}
+
+function removeSubTodoFromLocalStorage(currentTodo, subTodoToRemove) {
+
+    const currentProject = getCurrentProject();
+    let todos = checkAndReturnLocalStorageTodos('todos');
+
+    const project = todos.find(({ name }) => name === currentProject.name);
+
+    if (!project) {
+        console.error('Project not found:', currentProject.name);
+        return;
+    }
+
+    const todo = project.projectTodos.find(({ id }) => id === currentTodo.id);
+
+    if (!todo) {
+        console.error('Todo not found:', currentTodo.id);
+        return;
+    }
+
+    const subTodoArray = todo.todos || [];
+    const subTodoIndex = subTodoArray.findIndex(subTodo => subTodo.id === subTodoToRemove.id);
+
+    if (subTodoIndex === -1) {
+        console.error('Sub-todo not found:', subTodoToRemove.id);
+        return;
+    }
+
+    // Remove the sub-todo from the array
+    subTodoArray.splice(subTodoIndex, 1);
+
+    // Update the todos array in local storage
+    saveTodos(todos)
+}
+
+
+function saveTodos(todos) {
     localStorage.setItem('todos', JSON.stringify(todos));
 }
 
@@ -163,5 +203,6 @@ export {
     localStorageKeyExists,
     addProjectToLocalStorage,
     addTodoToLocalStorage,
-    addSubTodoToLocalStorage
+    addSubTodoToLocalStorage,
+    removeSubTodoFromLocalStorage
 }

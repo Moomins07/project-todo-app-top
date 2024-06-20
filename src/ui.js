@@ -13,12 +13,16 @@ import {
     getSubTodos,
     getCurrentProject,
     setCurrentProject,
-    todos
+    todos,
+
 } from "./state";
 import { SubTodo } from "./Todo";
 import { TODO_CONTAINER, MODAL } from "./constants";
 import formatDate from "./utils";
-import { addSubTodoToLocalStorage } from "./localStorage";
+import {
+    addSubTodoToLocalStorage,
+    removeSubTodoFromLocalStorage
+} from "./localStorage";
 
 let mouseDownOutside = false;
 
@@ -417,6 +421,7 @@ function _removeTodo(e) {
     if (confirm('Are you sure you want to delete this project?')) {
         const id = _grabTodoId(e)
         removeTodo(id)
+
         e.stopPropagation()
         _renderTodosToDOM()
 

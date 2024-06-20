@@ -6,7 +6,8 @@ import {
     localStorageKeyExists,
     addProjectToLocalStorage,
     addTodoToLocalStorage,
-    addSubTodoToLocalStorage
+    addSubTodoToLocalStorage,
+    removeSubTodoFromLocalStorage
 } from "./localStorage";
 
 
@@ -76,12 +77,18 @@ function _grabTodoId(e) {
 }
 
 function removeTodo(id) {
+    const currentTodo = getCurrentTodo()
     const { isMainTodo, index, projectIndex, parentIndex, subIndex } = _findIndex(id);
 
     if (isMainTodo && index !== -1 && !id.includes('SUBTODO')) {
         todos[index].projectTodos.splice(projectIndex, 1);
     } else if (!isMainTodo && subIndex !== -1) {
-        todos[parentIndex].projectTodos[projectIndex].todos.splice(subIndex, 1);
+        const subTodoArray = todos[parentIndex].projectTodos[projectIndex].todos;
+        const subTodo = todos[parentIndex].projectTodos[projectIndex].todos[subIndex]
+
+        subTodoArray.splice(subIndex, 1);
+        removeSubTodoFromLocalStorage(currentTodo, subTodo)
+
 
         if (todos[parentIndex].projectTodos[projectIndex].todos[subIndex]) {
             console.log('found the subtodo');
@@ -189,7 +196,6 @@ function _newSubTodo(todo) {
 
     const newSubTodo = new SubTodo(subTodoName)
 
-    addSubTodoToLocalStorage(todo)
 
     todo.todos.push(newSubTodo)
 }
