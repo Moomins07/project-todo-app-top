@@ -2,6 +2,7 @@
 import { Todo } from "./Todo";
 import {
     getCurrentProject,
+    getCurrentTodo,
     todos
 } from "./state";
 
@@ -100,7 +101,7 @@ function addTodoToLocalStorage(newTodo) {
     let todos = checkAndReturnLocalStorageTodos('todos')
     console.log(currentProject.name)
 
-    const project = todos.find(({ name }) => name === currentProject.name);
+    const project = todos.find(({ id }) => id === currentProject.id);
 
 
     if (project) {
@@ -119,6 +120,40 @@ function addTodoToLocalStorage(newTodo) {
 
 }
 
+function addSubTodoToLocalStorage(currentTodo, newSubTodo) {
+
+    // const currentTodo = getCurrentTodo()
+    // console.log(currentTodo)
+
+    const currentProject = getCurrentProject()
+
+    let todos = checkAndReturnLocalStorageTodos('todos')
+
+
+
+    const project = todos.find(({ name }) => name === currentProject.name);
+
+    console.log(project)
+
+    const todo = project.projectTodos.find(({ id }) => id === currentTodo.id);
+
+    console.log(todo)
+
+
+    const subTodo = todo.todos
+
+    subTodo.push(newSubTodo)
+
+    localStorage.setItem('todos', JSON.stringify(todos));
+
+
+
+
+
+
+
+}
+
 
 export {
     localStorageSetItem,
@@ -126,5 +161,6 @@ export {
     localStorageSetItemsOnDOMLoaded,
     localStorageKeyExists,
     addProjectToLocalStorage,
-    addTodoToLocalStorage
+    addTodoToLocalStorage,
+    addSubTodoToLocalStorage
 }

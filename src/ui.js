@@ -18,6 +18,7 @@ import {
 import { SubTodo } from "./Todo";
 import { TODO_CONTAINER, MODAL } from "./constants";
 import formatDate from "./utils";
+import { addSubTodoToLocalStorage } from "./localStorage";
 
 let mouseDownOutside = false;
 
@@ -313,6 +314,7 @@ function _addItemToModaList(e) {
     const todo = getCurrentTodo()
 
 
+
     const modalList = document.getElementById('checklistItems')
     const checkListInput = document.getElementById('checklistItemInput')
 
@@ -327,6 +329,7 @@ function _addItemToModaList(e) {
 
 
         todo.todos.push(newSubTodo)
+        addSubTodoToLocalStorage(todo, newSubTodo)
 
         listItem.setAttribute('data-id', newSubTodo.id)
 
@@ -336,6 +339,8 @@ function _addItemToModaList(e) {
         modalList.appendChild(listItem)
 
         checkListInput.value = ''
+
+
 
     }
 

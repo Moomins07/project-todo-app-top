@@ -5,7 +5,8 @@ import {
     localStorageSetItem,
     localStorageKeyExists,
     addProjectToLocalStorage,
-    addTodoToLocalStorage
+    addTodoToLocalStorage,
+    addSubTodoToLocalStorage
 } from "./localStorage";
 
 
@@ -37,8 +38,8 @@ function addProject(todo) {
 function addTodo(todo) {
     const currentProject = getCurrentProject()
     if (currentProject) {
-        currentProject.projectTodos.push(new Todo())
-        addTodoToLocalStorage(new Todo())
+        currentProject.projectTodos.push(todo)
+        addTodoToLocalStorage(todo)
 
     } else console.log('no current project')
 }
@@ -184,9 +185,11 @@ function _newTodo(e) {
 }
 
 function _newSubTodo(todo) {
-    const subTodoName = document.getElementById('checklistItemInpit').value
+    const subTodoName = document.getElementById('checklistItemInput').value
 
     const newSubTodo = new SubTodo(subTodoName)
+
+    addSubTodoToLocalStorage(todo)
 
     todo.todos.push(newSubTodo)
 }
