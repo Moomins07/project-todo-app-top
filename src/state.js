@@ -7,7 +7,8 @@ import {
     addProjectToLocalStorage,
     addTodoToLocalStorage,
     addSubTodoToLocalStorage,
-    removeSubTodoFromLocalStorage
+    removeSubTodoFromLocalStorage,
+    removeTodoFromLocalStorage
 } from "./localStorage";
 
 
@@ -78,10 +79,14 @@ function _grabTodoId(e) {
 
 function removeTodo(id) {
     const currentTodo = getCurrentTodo()
+    const currentProject = getCurrentProject()
     const { isMainTodo, index, projectIndex, parentIndex, subIndex } = _findIndex(id);
 
     if (isMainTodo && index !== -1 && !id.includes('SUBTODO')) {
-        todos[index].projectTodos.splice(projectIndex, 1);
+        const todoArray = todos[index].projectTodos
+        const todo = todos[index].projectTodos[projectIndex]
+        todoArray.splice(projectIndex, 1)
+        removeTodoFromLocalStorage(currentProject, todo)
     } else if (!isMainTodo && subIndex !== -1) {
         const subTodoArray = todos[parentIndex].projectTodos[projectIndex].todos;
         const subTodo = todos[parentIndex].projectTodos[projectIndex].todos[subIndex]

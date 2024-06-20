@@ -21,7 +21,8 @@ import { TODO_CONTAINER, MODAL } from "./constants";
 import formatDate from "./utils";
 import {
     addSubTodoToLocalStorage,
-    removeSubTodoFromLocalStorage
+    removeSubTodoFromLocalStorage,
+    removeProjectFromLocalStorage
 } from "./localStorage";
 
 let mouseDownOutside = false;
@@ -386,11 +387,14 @@ function _handleClick(e) {
         const container = e.target.closest('.mb-5.relative');
         const projectBtn = container.querySelector('.project-button')
         const currentIndex = projectBtn.getAttribute('data-index')
+        setCurrentProject(todos[currentIndex])
 
 
 
         if (confirm('Are you sure you want to delete this project?')) {
+            const currentProject = getCurrentProject()
             todos.splice(currentIndex, 1)
+            removeProjectFromLocalStorage(currentProject)
             // setCurrentProject(todos[currentIndex])
             setCurrentProject(null)
             _renderProjectNamesToDOM()
@@ -421,7 +425,6 @@ function _removeTodo(e) {
     if (confirm('Are you sure you want to delete this project?')) {
         const id = _grabTodoId(e)
         removeTodo(id)
-
         e.stopPropagation()
         _renderTodosToDOM()
 
