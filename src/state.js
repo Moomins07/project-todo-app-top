@@ -8,7 +8,8 @@ import {
     addTodoToLocalStorage,
     addSubTodoToLocalStorage,
     removeSubTodoFromLocalStorage,
-    removeTodoFromLocalStorage
+    removeTodoFromLocalStorage,
+    localStorageSetTodoProperties
 } from "./localStorage";
 
 
@@ -130,10 +131,12 @@ function _getUpdatedTodoFromInputs() {
     const todo = getCurrentTodo();
     console.log(todo)
 
-    todo.isUrgent = modalProjectUrgentCheckbox.checked;
-    todo.project = modalProjectTitle.value;
-    todo.date = formatDate(modalProjectDate.value);
-    todo.description = modalProjectDescription.value;
+    const urgentProperty = todo.isUrgent = modalProjectUrgentCheckbox.checked;
+    const projectNameProperty = todo.project = modalProjectTitle.value;
+    const dateProperty = todo.date = formatDate(modalProjectDate.value);
+    const descriptionProperty = todo.description = modalProjectDescription.value;
+
+    localStorageSetTodoProperties(todo, urgentProperty, projectNameProperty, dateProperty, descriptionProperty)
 
     return todo;
 }

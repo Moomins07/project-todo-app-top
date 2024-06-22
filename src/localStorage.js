@@ -57,7 +57,43 @@ function localStorageSetItem(name, item) {
 }
 
 function localStorageSetItemsOnDOMLoaded() {
-    localStorageSetItem('todos', todos)
+    if (storageAvailable('localStorage')) {
+        localStorageSetItem('todos', todos)
+    }
+}
+
+function localStorageSetTodoProperties(currentTodo, isUrgent, projectName, date, description) {
+
+    if (storageAvailable('localStorage')) {
+
+        const currentProject = getCurrentProject();
+        let todos = checkAndReturnLocalStorageTodos('todos');
+
+
+        const project = todos.find(({ id }) => id === currentProject.id);
+
+        if (!project) {
+            console.error('Project not found:', currentProject.name);
+            return;
+        }
+
+
+        const todo = project.projectTodos.find(({ id }) => id === currentTodo.id);
+
+        if (!todo) {
+            console.error('Todo not found:', currentTodo.id);
+            return;
+        }
+
+        todo.isUrgent = isUrgent;
+        todo.project = projectName;
+        todo.date = date;
+        todo.description = description;
+
+
+        saveTodos(todos)
+    }
+
 }
 
 function localStorageKeyExists(key) {
@@ -126,17 +162,14 @@ function addSubTodoToLocalStorage(currentTodo, newSubTodo) {
     const currentProject = getCurrentProject();
     let todos = checkAndReturnLocalStorageTodos('todos');
 
-    console.log('Current project:', currentProject);
-    console.log('Todos from localStorage:', JSON.stringify(todos, null, 2));
 
-    const project = todos.find(({ name }) => name === currentProject.name);
+    const project = todos.find(({ id }) => id === currentProject.id);
 
     if (!project) {
         console.error('Project not found:', currentProject.name);
         return;
     }
 
-    console.log('Found project:', project);
 
     const todo = project.projectTodos.find(({ id }) => id === currentTodo.id);
 
@@ -145,12 +178,11 @@ function addSubTodoToLocalStorage(currentTodo, newSubTodo) {
         return;
     }
 
-    console.log('Found todo:', todo);
 
     const subTodoArray = todo.todos || [];
     subTodoArray.push(newSubTodo);
 
-    // console.log('After adding new sub-todo:', JSON.stringify(todos, null, 2));
+
 
     saveTodos(todos)
 }
@@ -255,5 +287,6 @@ export {
     addSubTodoToLocalStorage,
     removeSubTodoFromLocalStorage,
     removeTodoFromLocalStorage,
-    removeProjectFromLocalStorage
+    removeProjectFromLocalStorage,
+    localStorageSetTodoProperties
 }
