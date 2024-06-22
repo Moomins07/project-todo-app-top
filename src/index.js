@@ -4,5 +4,5 @@ import { localStorageSetItemsOnDOMLoaded } from './localStorage'
 
 document.addEventListener('DOMContentLoaded', () => {
     setEventListeners();
-    localStorageSetItemsOnDOMLoaded();
+    // localStorageSetItemsOnDOMLoaded();
 });

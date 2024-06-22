@@ -9,7 +9,9 @@ import {
     addSubTodoToLocalStorage,
     removeSubTodoFromLocalStorage,
     removeTodoFromLocalStorage,
-    localStorageSetTodoProperties
+    localStorageSetTodoProperties,
+    saveTodos,
+    checkAndReturnLocalStorageTodos
 } from "./localStorage";
 
 
@@ -210,25 +212,39 @@ function _newSubTodo(todo) {
 
 
 function _defaultProjects() {
+    const defaultProject = {
+        id: 'default-project-id', // Ensure this is a unique identifier
+        name: 'Default Project',
+        projectTodos: []
+    };
 
+    console.log(todos)
 
-    const project1 = new Project('Code more JavaScript', '12/06/2024')
-    setCurrentProject(project1)
-    const d = new Date()
-    const date = d.getDate()
+    let localStorageTodos = checkAndReturnLocalStorageTodos('todos');
+
+    // Check if the default project already exists
+    const projectExists = todos.some(project => project.id === defaultProject.id);
+
+    if (!projectExists) {
+        todos.push(defaultProject);
+        saveTodos(todos);
+    }
+
+    const project1 = new Project('Code more JavaScript', '12/06/2024');
+    setCurrentProject(project1);
+
+    const d = new Date();
+    const date = d.getDate();
+
     const todo1 = new Todo(date);
-    todo1.isUrgent = true
+    todo1.isUrgent = true;
+    todo1.todos = []; // Initialize todos array if it is not already defined in Todo constructor
     todo1.todos.push(new SubTodo('Get this done finally'));
+
+    project1.projectTodos = []; // Initialize projectTodos array if it is not already defined in Project constructor
     project1.projectTodos.push(todo1);
 
-
-
-    addProject(project1)
-
-
-
-
-
+    addProject(project1);
 }
 
 

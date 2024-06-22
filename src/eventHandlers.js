@@ -14,7 +14,7 @@ import {
     _renderTodoList,
     _renderProjectNamesToDOM
 } from "./ui"
-import { localStorageSetItem } from "./localStorage"
+
 
 
 function setEventListeners() {
@@ -28,7 +28,7 @@ function setEventListeners() {
     document.addEventListener('mousedown', _handleMouseDown);
     document.addEventListener('mouseup', _handleMouseUp);
     document.querySelector('.modal').addEventListener('click', _handleModalClick)
-    _defaultProjects()
+    // _defaultProjects()
     _renderProjectNamesToDOM()
     _renderTodosToDOM()
 }

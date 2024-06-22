@@ -21,8 +21,8 @@ import { TODO_CONTAINER, MODAL } from "./constants";
 import formatDate from "./utils";
 import {
     addSubTodoToLocalStorage,
-    removeSubTodoFromLocalStorage,
-    removeProjectFromLocalStorage
+    removeProjectFromLocalStorage,
+    checkAndReturnLocalStorageTodos
 } from "./localStorage";
 
 let mouseDownOutside = false;
@@ -61,10 +61,9 @@ function _displayTodo(todo) {
 
 function _renderProjectNamesToDOM() {
     const addCardButton = document.getElementById('add-todo-card')
-    const renderedButton = document.querySelector('.project-button')
 
-
-    const projects = getTodos()
+    const projects = checkAndReturnLocalStorageTodos('todos')
+    console.log(projects)
     const projectNamesDiv = document.getElementById('project-names')
 
     if (getCurrentProject) {
@@ -356,6 +355,7 @@ function _addItemToModaList(e) {
 
 function _renderTodosToDOM() {
     TODO_CONTAINER.innerHTML = ''; // Clear the container here, before the loop
+
 
     if (getCurrentProject()) {
 

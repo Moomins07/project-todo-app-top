@@ -192,7 +192,7 @@ function removeSubTodoFromLocalStorage(currentTodo, subTodoToRemove) {
     const currentProject = getCurrentProject();
     let todos = checkAndReturnLocalStorageTodos('todos');
 
-    const project = todos.find(({ name }) => name === currentProject.name);
+    const project = todos.find(({ id }) => id === currentProject.id);
 
     if (!project) {
         console.error('Project not found:', currentProject.name);
@@ -227,7 +227,7 @@ function removeProjectFromLocalStorage(currentProject) {
 
     let todos = checkAndReturnLocalStorageTodos('todos');
 
-    const project = todos.find(({ id }) => id === currentProject.id);
+    const project = todos.find(({ name }) => name === currentProject.name);
 
     if (!project) {
         console.error('Project not found:', currentProject.name);
@@ -288,5 +288,7 @@ export {
     removeSubTodoFromLocalStorage,
     removeTodoFromLocalStorage,
     removeProjectFromLocalStorage,
-    localStorageSetTodoProperties
+    localStorageSetTodoProperties,
+    checkAndReturnLocalStorageTodos,
+    saveTodos
 }
