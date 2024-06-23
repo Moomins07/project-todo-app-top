@@ -20,7 +20,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script defer src="bundle.js"></script><link href="main.css" rel="stylesheet"></head>
   <body class="bg-darkBlue text-white font-opensans">
-    <div class="container mx-auto mt-10 px-6 text-center md:text-left md:h-20">
+    <div class="container mx-auto mt-10 px-6 text-center md:text-left md:h-20 pb-4 sm:pb-0">
       <h1
         class="text-center mb-10 text-3xl font-bold leading-normal mt-2 md:text-4xl md:text-left"
       >
@@ -35,7 +35,7 @@
       <p
         class="max-w-sm mb-10 text-sm md:max-w-xl md:text-xl mx-auto text-center md:text-left md:mx-0"
       >
-        The GitHub repo can be found here.
+        The GitHub repo can be found <a class="text-lightRed" href="https://github.com/Moomins07/project-todo-app-top" target="_blank">here.</a>
       </p>
 
       <h2
@@ -86,12 +86,25 @@
         </form>
       </div>
 
+      <div id="project-names" class="project-names flex flex-col sm:flex-row gap-4 flex-wrap w-full justify-items-center sm:justify-items-start"></div>
+
       <div class="container mx-auto">
         <div class="max-w-8xl">
+          <div class="flex flex-row-reverse lg:flex-row mb-4">
+          <button
+          id="add-todo-card"
+          class="flex flex-row justify-center rounded-md self-end bg-slate-600 md:rounded-lg px-8 py-1.5 w-1/12 dark:bg-slate-500 transition hover:dark:bg-slate-400 group hover:bg-slate-500 mt-5 hidden"
+        >
+          <i
+            class="text-white text-3xl fa-solid fa-plus transition group-hover:scale-125"
+          ></i>
+        </button>
+      </div>
           <div id="project-cards" class="gap-4">
-          
+           
          
         </div>
+
       </div>
     </div>
 
@@ -131,7 +144,7 @@
           <input type="checkbox" id="checkboxUrgent" class="px-3 py-2 border rounded text-darkBlue2 mr-6">
         </div>
           <button type="button" id="addChecklistItemButton" class="modalAddItem bg-slate-600 hover:bg-slate-500 text-white font-bold py-2 px-4 rounded mt-2">Add Item</button>
-          <ul id="checklistItems" class=" pl-5 mt-2 break-words list-none md:list-disc">
+          <ul id="checklistItems" class="pl-5 mt-2 break-words list-none md:list-disc">
             <!-- Checklist items will be added here -->
           </ul>
         </div>
@@ -139,7 +152,7 @@
       </form>
     </div>
   </div>
-  <div class="todo-list project-card hidden"></div>
+  <!-- <div class="todo-list project-card project-button hidden"></div> -->
 </div>
 
   </body>
