@@ -358,7 +358,6 @@ function _renderTodosToDOM() {
 
 
     if (getCurrentProject()) {
-        console.log(getCurrentProject())
 
         const currentProjectTodos = getCurrentProject().projectTodos
 
