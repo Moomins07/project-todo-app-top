@@ -56,11 +56,6 @@ function localStorageSetItem(name, item) {
     }
 }
 
-function localStorageSetItemsOnDOMLoaded() {
-    if (storageAvailable('localStorage')) {
-        localStorageSetItem('todos', todos)
-    }
-}
 
 function localStorageSetTodoProperties(currentTodo, isUrgent, projectName, date, description) {
 
@@ -278,7 +273,6 @@ function saveTodos(todos) {
 export {
     localStorageSetItem,
     storageAvailable,
-    localStorageSetItemsOnDOMLoaded,
     localStorageKeyExists,
     addProjectToLocalStorage,
     addTodoToLocalStorage,
