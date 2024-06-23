@@ -224,27 +224,29 @@ function removeSubTodoFromLocalStorage(currentTodo, subTodoToRemove) {
 
 
 function removeProjectFromLocalStorage(currentProject) {
+    if (!currentProject || !currentProject.id) {
+        console.error('Invalid currentProject:', currentProject);
+        return;
+    }
 
     let todos = checkAndReturnLocalStorageTodos('todos');
 
-    const project = todos.find(({ name }) => name === currentProject.name);
+    const projectIndex = todos.findIndex(project => project.id === currentProject.id);
 
-    if (!project) {
+    if (projectIndex === -1) {
         console.error('Project not found:', currentProject.name);
         return;
     }
 
-    const todoArray = project.projectTodos
-
-
-    const projectIndex = todos.findIndex(project => project.id === currentProject.id);
-
-    // Remove the sub-todo from the array
+    // Remove the project from the array
     todos.splice(projectIndex, 1);
 
     // Update the todos array in local storage
-    saveTodos(todos)
+    saveTodos(todos);
+
+    console.log('Project removed:', currentProject.name);
 }
+
 
 
 function removeTodoFromLocalStorage(currentProject, todoToRemove) {

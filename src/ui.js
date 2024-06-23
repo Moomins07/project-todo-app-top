@@ -63,10 +63,10 @@ function _renderProjectNamesToDOM() {
     const addCardButton = document.getElementById('add-todo-card')
 
     const projects = checkAndReturnLocalStorageTodos('todos')
-    console.log(projects)
+
     const projectNamesDiv = document.getElementById('project-names')
 
-    if (getCurrentProject) {
+    if (getCurrentProject()) {
         addCardButton.classList.remove('hidden')
     } else
         addCardButton.classList.add('hidden')
@@ -358,6 +358,7 @@ function _renderTodosToDOM() {
 
 
     if (getCurrentProject()) {
+        console.log(getCurrentProject())
 
         const currentProjectTodos = getCurrentProject().projectTodos
 
@@ -378,30 +379,49 @@ function _projectBtnIndex(e) {
     return index
 }
 
+function handleRemoveProjectClick(e) {
+    const container = e.target.closest('.mb-5.relative');
+    const projectBtn = container.querySelector('.project-button')
+    const currentIndex = projectBtn.getAttribute('data-index')
+    const localStorageTodos = checkAndReturnLocalStorageTodos('todos')
+    setCurrentProject(localStorageTodos[currentIndex])
+    console.log(localStorageTodos)
+
+    if (confirm('Are you sure you want to delete this project?')) {
+        const currentProject = getCurrentProject();
+
+        if (!currentProject) {
+            console.error('No current project selected');
+            return;
+        }
+
+        console.log('Current project to be removed:', currentProject);
+
+        let todos = checkAndReturnLocalStorageTodos('todos');
+        const currentIndex = todos.findIndex(project => project.id === currentProject.id);
+
+        if (currentIndex === -1) {
+            console.error('Project not found in local storage:', currentProject.name);
+            return;
+        }
+
+        todos.splice(currentIndex, 1);
+        removeProjectFromLocalStorage(currentProject);
+        // setCurrentProject(todos[currentIndex])
+        setCurrentProject(null);
+        _renderProjectNamesToDOM();
+        handleAddProjectButtonClick(e);
+        _renderTodosToDOM();
+    }
+}
+
 function _handleClick(e) {
     if (e.target.classList.contains('delete')) {
         _removeTodo(e)
 
     } else if (e.target.classList.contains('delete-project')) {
         e.stopPropagation()
-        const container = e.target.closest('.mb-5.relative');
-        const projectBtn = container.querySelector('.project-button')
-        const currentIndex = projectBtn.getAttribute('data-index')
-        setCurrentProject(todos[currentIndex])
-
-
-
-        if (confirm('Are you sure you want to delete this project?')) {
-            const currentProject = getCurrentProject()
-            todos.splice(currentIndex, 1)
-            removeProjectFromLocalStorage(currentProject)
-            // setCurrentProject(todos[currentIndex])
-            setCurrentProject(null)
-            _renderProjectNamesToDOM()
-            handleAddProjectButtonClick(e)
-            _renderTodosToDOM()
-        }
-
+        handleRemoveProjectClick(e)
     } else if (e.target.closest('.project-card')) {
         e.stopPropagation()
         _showAndPopulateModal(e);
@@ -411,7 +431,7 @@ function _handleClick(e) {
         const index = _projectBtnIndex(e);
         const addCardButton = document.getElementById('add-todo-card')
         if (index !== null) {
-            const todos = getTodos(); // Ensure getTodos() is defined and returns the list of todos
+            const todos = checkAndReturnLocalStorageTodos('todos'); // Ensure getTodos() is defined and returns the list of todos
             setCurrentProject(todos[index]);
             _renderTodosToDOM()
         }
