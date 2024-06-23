@@ -123,11 +123,7 @@ function addProjectToLocalStorage(newProject) {
     // Add the new project to the array
     todos.push(newProject);
 
-    // Convert the array back into a JSON string
-    const updatedTodos = JSON.stringify(todos);
-
-    // Save the updated JSON string back to localStorage
-    localStorage.setItem('todos', updatedTodos);
+    saveTodos(todos)
 }
 
 function addTodoToLocalStorage(newTodo) {
