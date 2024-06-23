@@ -536,7 +536,6 @@ video {
   justify-content: space-around;
   gap: 0.75rem;
   border-radius: 0.5rem;
-  border-left-width: 8px;
   --tw-border-opacity: 1;
   border-color: hsla(0, 100%, 63%, 1);
   border-color: hsla(0, 100%, 63%, var(--tw-border-opacity));
@@ -577,6 +576,9 @@ video {
   bottom: 0px;
   left: 0px;
 }
+.left-44 {
+  left: 11rem;
+}
 .top-20 {
   top: 5rem;
 }
@@ -589,6 +591,9 @@ video {
 }
 .mb-4 {
   margin-bottom: 1rem;
+}
+.mb-5 {
+  margin-bottom: 1.25rem;
 }
 .mr-6 {
   margin-right: 1.5rem;
@@ -605,6 +610,9 @@ video {
 .mt-3 {
   margin-top: 0.75rem;
 }
+.mt-5 {
+  margin-top: 1.25rem;
+}
 .block {
   display: block;
 }
@@ -614,11 +622,17 @@ video {
 .flex {
   display: flex;
 }
+.list-item {
+  display: list-item;
+}
 .hidden {
   display: none;
 }
 .h-full {
   height: 100%;
+}
+.w-1\/12 {
+  width: 8.333333%;
 }
 .w-3\/4 {
   width: 75%;
@@ -641,8 +655,14 @@ video {
 .flex-row {
   flex-direction: row;
 }
+.flex-row-reverse {
+  flex-direction: row-reverse;
+}
 .flex-col {
   flex-direction: column;
+}
+.flex-wrap {
+  flex-wrap: wrap;
 }
 .justify-end {
   justify-content: flex-end;
@@ -652,6 +672,9 @@ video {
 }
 .justify-between {
   justify-content: space-between;
+}
+.justify-items-center {
+  justify-items: center;
 }
 .gap-4 {
   gap: 1rem;
@@ -680,6 +703,11 @@ video {
 .overflow-y-auto {
   overflow-y: auto;
 }
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .break-words {
   word-wrap: break-word;
 }
@@ -697,6 +725,9 @@ video {
 }
 .border-2 {
   border-width: 2px;
+}
+.border-l-8 {
+  border-left-width: 8px;
 }
 .border-slate-600 {
   --tw-border-opacity: 1;
@@ -747,6 +778,10 @@ video {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
 }
+.px-8 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
 .py-1 {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
@@ -763,6 +798,12 @@ video {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
+.pb-4 {
+  padding-bottom: 1rem;
+}
+.pl-2 {
+  padding-left: 0.5rem;
+}
 .pl-5 {
   padding-left: 1.25rem;
 }
@@ -771,6 +812,10 @@ video {
 }
 .font-opensans {
   font-family: Open Sans, sans-serif;
+}
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 .text-3xl {
   font-size: 1.875rem;
@@ -783,6 +828,10 @@ video {
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
+}
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 }
 .font-bold {
   font-weight: 700;
@@ -818,6 +867,15 @@ video {
   color: rgba(255, 255, 255, 1);
   color: rgba(255, 255, 255, var(--tw-text-opacity));
 }
+.line-through {
+  text-decoration-line: line-through;
+}
+.opacity-30 {
+  opacity: 0.3;
+}
+.opacity-50 {
+  opacity: 0.5;
+}
 .shadow-lg {
   --tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
   --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
@@ -843,6 +901,52 @@ video {
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 }
 
+.project-names {
+  flex-wrap: wrap !important;
+}
+
+.project-button {
+  max-height: 2.25rem;
+  width: 12rem;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 0.25rem;
+  border-width: 1px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.project-button:hover {
+  max-height: 24rem;
+}
+
+.project-button {
+  white-space: nowrap; /* Prevent text wrapping */
+  text-overflow: ellipsis; /* Show ellipsis for overflowing text */
+  overflow: hidden; /* Hide overflowing text */
+  max-height: 3rem; /* Initial height to show truncated text */
+  display: block; /* Ensures the button behaves correctly with height changes */
+}
+
+.project-button:hover {
+  overflow: visible; /* Show overflow on hover */
+  max-height: 10rem;
+  transition: max-height 0.1s ease-in-out;
+  white-space: normal; /* Allow text to wrap */
+  transform: scale(1.1);
+}
+
+.active-button {
+  background-color: #10161f; /* Change background color for active button */
+  color: white; /* Change text color for active button */
+  border: 2px solid #ffffff; /* Optional: Add a border for emphasis */
+}
+
 .card {
   min-height: 200px;
   cursor: pointer;
@@ -852,10 +956,39 @@ video {
 .truncate-words {
   overflow: hidden;
   text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3; /* Number of lines to show, approximate based on average word length */
+  /* display: -webkit-box;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  white-space: normal;
+  white-space: normal; */
+}
+
+#checklistItems > li {
+  cursor: pointer !important;
+}
+
+.line-through {
+  -webkit-text-decoration: line-through !important;
+  text-decoration: line-through !important;
+}
+
+.project-card.border-l-8 {
+  border-left-width: 8px !important;
+}
+
+li,
+button {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+#checklistItems > li {
+  display: flex;
+  justify-content: space-between;
+}
+
+.project-date {
+  font-size: 12px;
 }
 
 .hover\:bg-slate-500:hover {
@@ -896,6 +1029,25 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgba(148, 163, 184, 1);
   background-color: rgba(148, 163, 184, var(--tw-bg-opacity));
+}
+
+@media (min-width: 640px) {
+
+  .sm\:absolute {
+    position: absolute;
+  }
+
+  .sm\:flex-row {
+    flex-direction: row;
+  }
+
+  .sm\:justify-items-start {
+    justify-items: start;
+  }
+
+  .sm\:pb-0 {
+    padding-bottom: 0px;
+  }
 }
 
 @media (min-width: 768px) {
@@ -970,6 +1122,13 @@ video {
   .md\:text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+
+  .lg\:flex-row {
+    flex-direction: row;
   }
 }
 
