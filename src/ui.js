@@ -3,7 +3,6 @@ import {
     updateTodo,
     _grabTodoId,
     _findIndex,
-    _defaultProjects,
     removeTodo,
     getCurrentTodo,
     setCurrentTodo,
@@ -28,13 +27,14 @@ import {
 let mouseDownOutside = false;
 
 
-function _displayTodo(todo) {
+function _displayTodo(todo, index) {
 
     const div = document.createElement('div')
     const todoList = document.createElement('div')
     const ul = document.createElement('ul')
     div.classList.add('project-card', 'card', 'group')
     div.setAttribute('data-id', todo.id)
+    div.setAttribute('data-index', index)
     div.innerHTML = `
     <i class="fa-lg fa-regular fa-circle-xmark delete"></i>
     <h2 class="text-2xl truncate break-words">${todo.project}</h2>
@@ -356,24 +356,25 @@ function _addItemToModaList(e) {
 function _renderTodosToDOM() {
     TODO_CONTAINER.innerHTML = ''; // Clear the container here, before the loop
 
+    const currentProject = getCurrentProject();
 
-    if (getCurrentProject()) {
-
-        const currentProjectTodos = getCurrentProject().projectTodos
-
-        currentProjectTodos.forEach((todo) => {
-            _displayTodo(todo)
-            _renderTodoList(todo)
-            _checkTodoUrgency(todo)
-
-        })
-
+    if (currentProject && currentProject.projectTodos) {
+        currentProject.projectTodos.forEach((todo, index) => {
+            _displayTodo(todo, index);
+            _renderTodoList(todo);
+            _checkTodoUrgency(todo);
+        });
+    } else {
+        console.error('No current project or projectTodos found');
     }
 }
 
+
 function _projectBtnIndex(e) {
-    const btn = e.target.closest('.project-button')
+    const btn = e.target.closest('.project-button') || e.target.closest('.project-card')
     const index = btn.getAttribute('data-index')
+
+    console.log(index)
 
     return index
 }
@@ -416,7 +417,17 @@ function handleRemoveProjectClick(e) {
 
 function _handleClick(e) {
     if (e.target.classList.contains('delete')) {
-        _removeTodo(e)
+
+        const index = _projectBtnIndex(e);
+        if (index !== null) {
+            const todos = checkAndReturnLocalStorageTodos('todos'); // Ensure getTodos() is defined and returns the list of todos
+            setCurrentTodo(getCurrentProject().projectTodos[index])
+            _removeTodo(e)
+            _renderTodosToDOM()
+        }
+
+
+
 
     } else if (e.target.classList.contains('delete-project')) {
         e.stopPropagation()

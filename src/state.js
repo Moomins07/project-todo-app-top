@@ -50,6 +50,7 @@ function addTodo(todo) {
 }
 
 function _findIndex(id) {
+    const todos = checkAndReturnLocalStorageTodos('todos')
     // Find main todo by iterating through each project and its projectTodos
     for (let i = 0; i < todos.length; i++) {
         const projectIndex = todos[i].projectTodos.findIndex((projectTodo) => projectTodo.id === id);
@@ -81,6 +82,7 @@ function _grabTodoId(e) {
 }
 
 function removeTodo(id) {
+    const todos = checkAndReturnLocalStorageTodos('todos')
     const currentTodo = getCurrentTodo()
     const currentProject = getCurrentProject()
     const { isMainTodo, index, projectIndex, parentIndex, subIndex } = _findIndex(id);
@@ -211,42 +213,18 @@ function _newSubTodo(todo) {
 }
 
 
-function _defaultProjects() {
-    const defaultProject = {
-        id: 'default-project-id', // Ensure this is a unique identifier
-        name: 'Default Project',
-        projectTodos: []
-    };
 
-    console.log(todos)
+function _initializeAppState() {
+    let todos = checkAndReturnLocalStorageTodos('todos');
 
-    let localStorageTodos = checkAndReturnLocalStorageTodos('todos');
+    const currentProject = getCurrentProject()
 
-    // Check if the default project already exists
-    const projectExists = todos.some(project => project.id === defaultProject.id);
-
-    if (!projectExists) {
-        todos.push(defaultProject);
-        saveTodos(todos);
+    if (currentProject) {
+        setCurrentProject(currentProject);
+    } else if (todos.length > 0) {
+        setCurrentProject(todos[0]); // Set the first project as current if no current project is found
     }
-
-    const project1 = new Project('Code more JavaScript', '12/06/2024');
-    setCurrentProject(project1);
-
-    const d = new Date();
-    const date = d.getDate();
-
-    const todo1 = new Todo(date);
-    todo1.isUrgent = true;
-    todo1.todos = []; // Initialize todos array if it is not already defined in Todo constructor
-    todo1.todos.push(new SubTodo('Get this done finally'));
-
-    project1.projectTodos = []; // Initialize projectTodos array if it is not already defined in Project constructor
-    project1.projectTodos.push(todo1);
-
-    addProject(project1);
 }
-
 
 
 
@@ -256,7 +234,6 @@ export {
     removeTodo,
     getTodos,
     _newTodo,
-    _defaultProjects,
     _findIndex,
     updateTodo,
     _grabTodoId,
@@ -269,5 +246,6 @@ export {
     _newProject,
     setCurrentProject,
     getCurrentProject,
-    todos
+    todos,
+    _initializeAppState
 }
