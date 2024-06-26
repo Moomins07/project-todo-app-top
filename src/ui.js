@@ -359,6 +359,8 @@ function _renderTodosToDOM() {
     const currentProject = getCurrentProject();
 
     if (currentProject && currentProject.projectTodos) {
+
+
         currentProject.projectTodos.forEach((todo, index) => {
             _displayTodo(todo, index);
             _renderTodoList(todo);
@@ -420,15 +422,12 @@ function _handleClick(e) {
 
         const index = _projectBtnIndex(e);
         if (index !== null) {
-            const todos = checkAndReturnLocalStorageTodos('todos'); // Ensure getTodos() is defined and returns the list of todos
-            setCurrentTodo(getCurrentProject().projectTodos[index])
+            const currentTodo = getCurrentProject().projectTodos[index]
+            setCurrentTodo(currentTodo)
+
             _removeTodo(e)
             _renderTodosToDOM()
         }
-
-
-
-
     } else if (e.target.classList.contains('delete-project')) {
         e.stopPropagation()
         handleRemoveProjectClick(e)
@@ -440,8 +439,8 @@ function _handleClick(e) {
     } else if (e.target.closest('.project-button')) {
         const index = _projectBtnIndex(e);
         const addCardButton = document.getElementById('add-todo-card')
+        const todos = checkAndReturnLocalStorageTodos('todos'); // Ensure getTodos() is defined and returns the list of todos
         if (index !== null) {
-            const todos = checkAndReturnLocalStorageTodos('todos'); // Ensure getTodos() is defined and returns the list of todos
             setCurrentProject(todos[index]);
             _renderTodosToDOM()
         }
@@ -549,6 +548,7 @@ export {
     _handleMouseDown,
     _handleMouseUp,
     _renderTodoList,
-    _renderProjectNamesToDOM
+    _renderProjectNamesToDOM,
+
 }
 

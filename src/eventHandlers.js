@@ -12,7 +12,7 @@ import {
     _handleMouseDown,
     _handleMouseUp,
     _renderTodoList,
-    _renderProjectNamesToDOM
+    _renderProjectNamesToDOM,
 } from "./ui"
 
 

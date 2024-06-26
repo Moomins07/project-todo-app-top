@@ -42,6 +42,7 @@ function addProject(todo) {
 
 function addTodo(todo) {
     const currentProject = getCurrentProject()
+    console.log(currentProject)
     if (currentProject) {
         currentProject.projectTodos.push(todo)
         addTodoToLocalStorage(todo)
@@ -192,7 +193,6 @@ function _newProject(e) {
 
 
 function _newTodo(e) {
-    const projectText = document.getElementById('project').value
     const projectDate = document.getElementById('project-date').value
 
     e.preventDefault();
