@@ -76,9 +76,20 @@ function _findIndex(id) {
 
 
 function _grabTodoId(e) {
-    const cardElement = e.target.closest('.card');
-    const modalElement = e.target.closest('li');
-    const id = cardElement ? cardElement.getAttribute('data-id') : (modalElement ? modalElement.getAttribute('data-id') : null);
+    let id = null;
+
+    switch (true) {
+        case e.target.closest('.card') !== null:
+            id = e.target.closest('.card').getAttribute('data-id');
+            break;
+        case e.target.closest('li') !== null:
+            id = e.target.closest('li').getAttribute('data-id');
+            break;
+        default:
+            id = null;
+            break;
+    }
+
     return id;
 }
 
@@ -91,13 +102,13 @@ function removeTodo(id) {
     if (isMainTodo && index !== -1 && !id.includes('SUBTODO')) {
         const todoArray = todos[index].projectTodos
         const todo = todos[index].projectTodos[projectIndex]
-        todoArray.splice(projectIndex, 1)
+        // todoArray.splice(projectIndex, 1)
         removeTodoFromLocalStorage(currentProject, todo)
     } else if (!isMainTodo && subIndex !== -1) {
         const subTodoArray = todos[parentIndex].projectTodos[projectIndex].todos;
         const subTodo = todos[parentIndex].projectTodos[projectIndex].todos[subIndex]
 
-        subTodoArray.splice(subIndex, 1);
+        // subTodoArray.splice(subIndex, 1);
         removeSubTodoFromLocalStorage(currentTodo, subTodo)
 
 

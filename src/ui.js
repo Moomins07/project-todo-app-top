@@ -21,7 +21,8 @@ import formatDate from "./utils";
 import {
     addSubTodoToLocalStorage,
     removeProjectFromLocalStorage,
-    checkAndReturnLocalStorageTodos
+    checkAndReturnLocalStorageTodos,
+    saveTodos
 } from "./localStorage";
 
 let mouseDownOutside = false;
@@ -358,6 +359,7 @@ function _renderTodosToDOM() {
 
     const currentProject = getCurrentProject();
 
+    console.log(currentProject.projectTodos)
     if (currentProject && currentProject.projectTodos) {
 
 
@@ -431,11 +433,13 @@ function _handleClick(e) {
     } else if (e.target.classList.contains('delete-project')) {
         e.stopPropagation()
         handleRemoveProjectClick(e)
+
     } else if (e.target.closest('.project-card')) {
         e.stopPropagation()
         _showAndPopulateModal(e);
         const todo = _findTodo(e)
         setCurrentTodo(todo)
+
     } else if (e.target.closest('.project-button')) {
         const index = _projectBtnIndex(e);
         const addCardButton = document.getElementById('add-todo-card')
@@ -451,22 +455,43 @@ function _handleClick(e) {
 }
 
 function _removeTodo(e) {
-    if (confirm('Are you sure you want to delete this project?')) {
-        const id = _grabTodoId(e)
-        removeTodo(id)
-        e.stopPropagation()
-        _renderTodosToDOM()
+    if (confirm('Are you sure you want to delete this todo?')) {
+        const id = _grabTodoId(e);
 
+        removeTodo(id);
+        e.stopPropagation();
+
+        // Ensure the current project state is updated
+        const updatedProject = getCurrentProject();
+        updatedProject.projectTodos = updatedProject.projectTodos.filter(todo => todo.id !== id);
+
+
+
+
+
+        // Re-render the todos
+        _renderTodosToDOM();
     }
 }
 
 function _removeTodoListItem(e) {
     const todo = getCurrentTodo()
-    if (confirm('Are you sure you want to delete this todo?')) {
+    if (confirm('Are you sure you want to delete this subtodo?')) {
         const id = _grabTodoId(e)
         removeTodo(id)
         e.stopPropagation()
-        console.log(todo)
+
+        const updatedProject = getCurrentProject();
+        updatedProject.projectTodos.forEach(todo => {
+            if (todo.todos) {
+                todo.todos = todo.todos.filter(subTodo => subTodo.id !== id);
+            }
+        });
+
+        // Update local storage with the new state
+        saveTodos(checkAndReturnLocalStorageTodos('todos'));
+
+
         _renderTodoList(todo)
         _populateModalTodoList(todo)
     }

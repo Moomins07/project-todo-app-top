@@ -126,7 +126,7 @@ function addTodoToLocalStorage(newTodo) {
     const currentProject = getCurrentProject()
 
     let todos = checkAndReturnLocalStorageTodos('todos')
-    console.log(currentProject.name)
+
 
     const project = todos.find(({ id }) => id === currentProject.id);
 
