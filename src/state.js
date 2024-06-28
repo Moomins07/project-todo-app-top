@@ -42,7 +42,6 @@ function addProject(todo) {
 
 function addTodo(todo) {
     const currentProject = getCurrentProject()
-    console.log(currentProject)
     if (currentProject) {
         currentProject.projectTodos.push(todo)
         addTodoToLocalStorage(todo)
@@ -100,12 +99,12 @@ function removeTodo(id) {
     const { isMainTodo, index, projectIndex, parentIndex, subIndex } = _findIndex(id);
 
     if (isMainTodo && index !== -1 && !id.includes('SUBTODO')) {
-        const todoArray = todos[index].projectTodos
+        // const todoArray = todos[index].projectTodos
         const todo = todos[index].projectTodos[projectIndex]
         // todoArray.splice(projectIndex, 1)
         removeTodoFromLocalStorage(currentProject, todo)
     } else if (!isMainTodo && subIndex !== -1) {
-        const subTodoArray = todos[parentIndex].projectTodos[projectIndex].todos;
+        // const subTodoArray = todos[parentIndex].projectTodos[projectIndex].todos;
         const subTodo = todos[parentIndex].projectTodos[projectIndex].todos[subIndex]
 
         // subTodoArray.splice(subIndex, 1);
@@ -145,7 +144,6 @@ function _getUpdatedTodoFromInputs() {
     const modalProjectUrgentCheckbox = document.getElementById('checkboxUrgent');
 
     const todo = getCurrentTodo();
-    console.log(todo)
 
     const urgentProperty = todo.isUrgent = modalProjectUrgentCheckbox.checked;
     const projectNameProperty = todo.project = modalProjectTitle.value;

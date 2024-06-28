@@ -359,7 +359,6 @@ function _renderTodosToDOM() {
 
     const currentProject = getCurrentProject();
 
-    console.log(currentProject.projectTodos)
     if (currentProject && currentProject.projectTodos) {
 
 
@@ -368,8 +367,6 @@ function _renderTodosToDOM() {
             _renderTodoList(todo);
             _checkTodoUrgency(todo);
         });
-    } else {
-        console.error('No current project or projectTodos found');
     }
 }
 
@@ -378,7 +375,6 @@ function _projectBtnIndex(e) {
     const btn = e.target.closest('.project-button') || e.target.closest('.project-card')
     const index = btn.getAttribute('data-index')
 
-    console.log(index)
 
     return index
 }
@@ -389,7 +385,6 @@ function handleRemoveProjectClick(e) {
     const currentIndex = projectBtn.getAttribute('data-index')
     const localStorageTodos = checkAndReturnLocalStorageTodos('todos')
     setCurrentProject(localStorageTodos[currentIndex])
-    console.log(localStorageTodos)
 
     if (confirm('Are you sure you want to delete this project?')) {
         const currentProject = getCurrentProject();
