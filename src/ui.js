@@ -1,18 +1,13 @@
 import {
-    getTodos,
-    updateTodo,
+
     _grabTodoId,
-    _findIndex,
     removeTodo,
     getCurrentTodo,
     setCurrentTodo,
     _getUpdatedTodoFromInputs,
     _checkModalTodoAsComplete,
-    _newSubTodo,
-    getSubTodos,
     getCurrentProject,
     setCurrentProject,
-    todos,
 
 } from "./state";
 import { SubTodo } from "./Todo";
